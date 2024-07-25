@@ -26,7 +26,7 @@ public class Person {
     @Column(name = "birth_date")
     private Date birthDate;
 
-    @OneToOne(mappedBy = "passports")
-    @JoinColumn(name = "passport_id")
-    private Integer passportId;
+//    @OneToOne(mappedBy = "passports")
+//    @JoinColumn(name = "passport_id")
+//    private Integer passportId;
 }
