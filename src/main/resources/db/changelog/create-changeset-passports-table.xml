@@ -20,23 +20,6 @@
             <column name="issue_date" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="person_id" type="int">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
-    </changeSet>
-    <changeSet id="add_fk_person_id_passport_id" author="vitek">
-        <!-- Прописываем внешний ключ -->
-        <addForeignKeyConstraint baseColumnNames="person_id"
-                                 baseTableName="passports"
-                                 constraintName="fk_person_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="persons"/>
-        <!-- Прописываем внешний ключ -->
-        <addForeignKeyConstraint baseColumnNames="passport_id"
-                                 baseTableName="persons"
-                                 constraintName="fk_passport_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="passports"/>
     </changeSet>
 </databaseChangeLog>

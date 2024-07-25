@@ -24,4 +24,11 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="add_fk_passport_id" author="vitek">
+        <addForeignKeyConstraint baseColumnNames="passport_id"
+                                 baseTableName="persons"
+                                 constraintName="fk_passport_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="passports"/>
+    </changeSet>
 </databaseChangeLog>
