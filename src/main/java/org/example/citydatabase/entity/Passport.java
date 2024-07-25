@@ -22,8 +22,4 @@ public class Passport {
 
     @Column(name = "issue_date")
     private Date issueDate;
-
-//    @OneToOne(mappedBy = "persons")
-//    @JoinColumn(name = "person_id")
-//    private Integer personId;
 }
