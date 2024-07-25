@@ -25,5 +25,9 @@ public class House {
     private BigDecimal cadastrPrice;
 
     @ManyToMany
+    @JoinTable(name = "persons_houses"
+            , joinColumns = @JoinColumn(name = "person_id")
+            , inverseJoinColumns = @JoinColumn(name = "house_id")
+    )
     List<Person> persons;
 }

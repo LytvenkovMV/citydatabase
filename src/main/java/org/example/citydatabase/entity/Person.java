@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,7 +27,17 @@ public class Person {
     @Column(name = "birth_date")
     private Date birthDate;
 
-    @OneToOne(cascade = CascadeType.PERSIST.REMOVE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "passport_id")
     private Passport passport;
+
+    @OneToMany(mappedBy = "person")
+    private List<Car> cars;
+
+    @ManyToMany
+    @JoinTable(name = "persons_houses"
+            , joinColumns = @JoinColumn(name = "house_id")
+            , inverseJoinColumns = @JoinColumn(name = "person_id")
+    )
+    private List<House> houses;
 }

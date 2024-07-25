@@ -3,8 +3,6 @@ package org.example.citydatabase.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
-
 @Entity
 @Data
 @Table(name = "cars")
@@ -26,7 +24,7 @@ public class Car {
     @Column(name = "color")
     private String color;
 
-//    @ManyToOne(mappedBy = "cars")
-//    @JoinColumn(name = "person_id")
-//    private Integer personId;
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
 }
