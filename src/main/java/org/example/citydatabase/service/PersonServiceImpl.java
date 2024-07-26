@@ -14,7 +14,7 @@ import java.util.Optional;
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository repository;
- /////////   private final PersonMapper mapper;
+    private final PersonMapper mapper;
 
     @Override
     public Person getPerson(int personId) {
@@ -24,8 +24,8 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void addPerson(AddPersonRequestDto dto) {
-//        Person person = mapper.personFromAddPersonRequestDto(dto);
-//        person.setPassport(mapper.passportFromAddPersonRequestDto(dto));
-//        repository.save(person);
+        Person person = mapper.personFromAddPersonRequestDto(dto);
+        person.setPassport(mapper.passportFromAddPersonRequestDto(dto));
+        repository.save(person);
     }
 }

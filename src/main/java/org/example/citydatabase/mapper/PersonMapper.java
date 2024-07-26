@@ -9,14 +9,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PersonMapper {
 
-//    @Mapping(target = "id", ignore = true)
-//    @Mapping(target = "phones", ignore = true)
-//    @Mapping(target = "emails", ignore = true)
-//    @Mapping(target = "password", source = "encPassword")
-//    @Mapping(target = "initBalance", source = "addClientRequestDto.balance")
-//    @Mapping(target = "currBalance", source = "addClientRequestDto.balance")
-
-
     @Mapping(target = "id", ignore = true)
     Person personFromAddPersonRequestDto(AddPersonRequestDto dto);
 
