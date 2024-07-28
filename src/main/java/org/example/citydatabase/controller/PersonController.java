@@ -15,15 +15,23 @@ public class PersonController {
     private final PersonService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getPerson(@PathVariable(name = "id") int personId) {
+    public ResponseEntity<Person> getPerson(@PathVariable(name = "id") Long personId) {
         Person person = service.getPerson(personId);
 
-        return ResponseEntity.ok(person.toString());
+        return ResponseEntity.ok(person);
     }
 
-    public ResponseEntity<String> addPerson(@RequestBody AddPersonRequestDto dto) {
-        service.addPerson(dto);
+    @PostMapping("/")
+    public ResponseEntity<Person> addPerson(@RequestBody AddPersonRequestDto dto) {
+        Person person = service.addPerson(dto);
 
-        return ResponseEntity.ok("OK");
+        return ResponseEntity.ok(person);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePerson(@PathVariable(name = "id") Long personId) {
+        service.deletePerson(personId);
+
+        return ResponseEntity.ok("Person deleted!");
     }
 }

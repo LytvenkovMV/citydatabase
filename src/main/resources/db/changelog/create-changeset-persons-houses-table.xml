@@ -8,6 +8,9 @@
         <!-- Прописываем создание таблицы -->
         <createTable tableName="persons_houses">
             <!--Создаем поля -->
+            <column autoIncrement="true" name="id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
             <column name="person_id" type="integer">
                 <constraints nullable="false"/>
             </column>

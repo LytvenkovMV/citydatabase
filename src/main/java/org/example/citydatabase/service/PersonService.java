@@ -5,7 +5,9 @@ import org.example.citydatabase.entity.Person;
 
 public interface PersonService {
 
-    Person getPerson(int personId);
+    Person getPerson(Long personId);
 
-    void addPerson(AddPersonRequestDto dto);
+    Person addPerson(AddPersonRequestDto dto);
+
+    void deletePerson(Long personId);
 }

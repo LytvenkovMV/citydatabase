@@ -5,26 +5,19 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "cars")
-public class Car {
+@Table(name = "persons_houses")
+public class PersonHouse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-
-    @Column(name = "gos_number")
-    private String gosNumber;
-
-    @Column(name = "brand")
-    private String brand;
-
-    @Column(name = "model")
-    private String model;
-
-    @Column(name = "color")
-    private String color;
 
     @ManyToOne
     @JoinColumn(name = "person_id")
     private Person person;
+
+    @ManyToOne
+    @JoinColumn(name = "house_id")
+    private House house;
 }

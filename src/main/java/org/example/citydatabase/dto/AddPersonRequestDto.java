@@ -16,7 +16,7 @@ public class AddPersonRequestDto {
     private String surname;
 
     @JsonProperty("middlename")
-    private String middleName;
+    private String middlename;
 
     @JsonProperty("birth_date")
     private String birthDate;
@@ -29,4 +29,7 @@ public class AddPersonRequestDto {
 
     @JsonProperty("passport_date")
     private String passportIssueDate;
+
+    @JsonProperty("houses_id")
+    private Long[] housesId;
 }

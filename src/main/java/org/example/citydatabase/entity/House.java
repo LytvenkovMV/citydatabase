@@ -13,10 +13,10 @@ public class House {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "cadastr_number")
-    private String cadastrNumber;
+    private Integer cadastrNumber;
 
     @Column(name = "address")
     private String address;
