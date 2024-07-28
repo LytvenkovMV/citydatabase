@@ -8,8 +8,6 @@ import org.example.citydatabase.repository.CarRepository;
 import org.example.citydatabase.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class CarServiceImpl implements CarService {
