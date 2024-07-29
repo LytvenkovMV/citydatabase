@@ -21,15 +21,6 @@ public class AddPersonRequestDto {
     @JsonProperty("birth_date")
     private String birthDate;
 
-    @JsonProperty("passport_number")
-    private Integer passportNumber;
-
-    @JsonProperty("passport_code")
-    private Integer passportOfficeCode;
-
-    @JsonProperty("passport_date")
-    private String passportIssueDate;
-
     @JsonProperty("houses_id")
     private Long[] housesId;
 }

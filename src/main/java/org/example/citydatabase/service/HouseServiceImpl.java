@@ -4,27 +4,30 @@ import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.dto.AddHouseRequestDto;
 import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Person;
-import org.example.citydatabase.entity.PersonHouse;
 import org.example.citydatabase.mapper.HouseMapper;
 import org.example.citydatabase.repository.HouseRepository;
-import org.example.citydatabase.repository.PersonHouseRepository;
-import org.example.citydatabase.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class HouseServiceImpl implements HouseService {
 
     private final HouseRepository houseRepository;
-    private final PersonRepository personRepository;
-    private final PersonHouseRepository personHouseRepository;
+    private final PersonService personService;
+    private final PersonHouseService personHouseService;
     private final HouseMapper mapper;
 
     @Override
     public House getHouse(Long houseId) {
-        return houseRepository.findById(houseId).orElseThrow();
+        Optional<House> optHouse = houseRepository.findById(houseId);
+        if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
+
+        return optHouse.get();
     }
 
     @Override
@@ -34,12 +37,10 @@ public class HouseServiceImpl implements HouseService {
         houseRepository.save(house);
 
         for (Long personId : dto.getPersonsId()) {
-            Person person = personRepository.findById(personId).orElseThrow();
+            Person person = personService.getPerson(personId);
+            if (person == null) throw new NoSuchElementException("Person not found");
 
-            PersonHouse personHouse = new PersonHouse();
-            personHouse.setPerson(person);
-            personHouse.setHouse(house);
-            personHouseRepository.save(personHouse);
+            personHouseService.addPersonHouse(person, house);
         }
 
         return house;
@@ -48,9 +49,10 @@ public class HouseServiceImpl implements HouseService {
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void deleteHouse(Long houseId) {
-        House house = houseRepository.findById(houseId).orElseThrow();
+        Optional<House> optHouse = houseRepository.findById(houseId);
+        if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
 
-        personHouseRepository.deleteAllByHouseId(houseId);
-        houseRepository.delete(house);
+        personHouseService.deleteAllByHouseId(houseId);
+        houseRepository.delete(optHouse.get());
     }
 }

@@ -18,7 +18,7 @@ public class Passport {
     private Integer number;
 
     @Column(name = "office_code")
-    private Integer officeCode;
+    private String officeCode;
 
     @Column(name = "issue_date")
     private Date issueDate;
