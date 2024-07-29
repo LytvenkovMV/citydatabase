@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Для домов")
 @RestController
-@RequestMapping("citydatabase/person")
+@RequestMapping("/citydatabase/person")
 @RequiredArgsConstructor
 public class PersonController {
 
@@ -27,7 +27,6 @@ public class PersonController {
 
     @Operation(summary = "Добавить жителя")
     @PostMapping("/")
-
     public ResponseEntity<Person> addPerson(@RequestBody AddPersonRequestDto dto) {
         Person person = service.addPerson(dto);
 
