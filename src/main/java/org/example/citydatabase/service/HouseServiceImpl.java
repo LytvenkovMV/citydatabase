@@ -1,7 +1,8 @@
 package org.example.citydatabase.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.citydatabase.dto.AddHouseRequestDto;
+import org.example.citydatabase.dto.house.AddHouseRequestDto;
+import org.example.citydatabase.dto.house.GetHouseResponseDto;
 import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.mapper.HouseMapper;
@@ -24,16 +25,16 @@ public class HouseServiceImpl implements HouseService {
     private final HouseMapper mapper;
 
     @Override
-    public House getHouse(Long houseId) {
+    public GetHouseResponseDto getHouse(Long houseId) {
         Optional<House> optHouse = houseRepository.findById(houseId);
         if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
 
-        return optHouse.get();
+        return mapper.fromHouse(optHouse.get());
     }
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public House addHouse(AddHouseRequestDto dto) {
+    public GetHouseResponseDto addHouse(AddHouseRequestDto dto) {
         House house = mapper.fromAddHouseRequestDto(dto);
         houseRepository.save(house);
 
@@ -44,7 +45,7 @@ public class HouseServiceImpl implements HouseService {
             personHouseService.addPersonHouse(person, house);
         }
 
-        return house;
+        return mapper.fromHouse(house);
     }
 
     @Override

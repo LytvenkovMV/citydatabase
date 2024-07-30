@@ -1,4 +1,4 @@
-package org.example.citydatabase.dto;
+package org.example.citydatabase.dto.house;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

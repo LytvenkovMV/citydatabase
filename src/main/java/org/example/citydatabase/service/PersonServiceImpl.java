@@ -1,13 +1,13 @@
 package org.example.citydatabase.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.citydatabase.dto.AddPersonRequestDto;
+import org.example.citydatabase.dto.person.AddPersonRequestDto;
+import org.example.citydatabase.dto.person.GetPersonResponseDto;
 import org.example.citydatabase.entity.Car;
 import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Passport;
 import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.mapper.PersonMapper;
-import org.example.citydatabase.repository.PassportRepository;
 import org.example.citydatabase.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -30,16 +30,16 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper mapper;
 
     @Override
-    public Person getPerson(Long personId) {
+    public GetPersonResponseDto getPerson(Long personId) {
         Optional<Person> optPerson = personRepository.findById(personId);
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
 
-        return optPerson.get();
+        return mapper.fromPerson(optPerson.get());
     }
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Person addPerson(AddPersonRequestDto dto) {
+    public GetPersonResponseDto addPerson(AddPersonRequestDto dto) {
         Person person = mapper.personFromAddPersonRequestDto(dto);
         Passport passport = passportService.addPassport();
         person.setPassport(passport);
@@ -53,7 +53,7 @@ public class PersonServiceImpl implements PersonService {
             personHouseService.addPersonHouse(person, house);
         }
 
-        return person;
+        return mapper.fromPerson(person);
     }
 
     @Override

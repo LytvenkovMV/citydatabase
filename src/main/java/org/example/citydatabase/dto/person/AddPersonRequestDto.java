@@ -1,4 +1,4 @@
-package org.example.citydatabase.dto;
+package org.example.citydatabase.dto.person;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddPersonRequestDto {
+
     @JsonProperty("name")
     private String name;
 

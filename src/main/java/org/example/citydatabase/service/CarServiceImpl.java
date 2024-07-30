@@ -1,7 +1,8 @@
 package org.example.citydatabase.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.citydatabase.dto.AddCarRequestDto;
+import org.example.citydatabase.dto.car.AddCarRequestDto;
+import org.example.citydatabase.dto.car.GetCarResponseDto;
 import org.example.citydatabase.entity.Car;
 import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.mapper.CarMapper;
@@ -21,21 +22,21 @@ public class CarServiceImpl implements CarService {
     private final CarMapper mapper;
 
     @Override
-    public Car getCar(Long carId) {
+    public GetCarResponseDto getCar(Long carId) {
         Optional<Car> optCar = carRepository.findById(carId);
         if (optCar.isEmpty()) throw new NoSuchElementException("Car not found");
 
-        return optCar.get();
+        return mapper.fromCar(optCar.get());
     }
 
     @Override
-    public Car addCar(AddCarRequestDto dto) {
+    public GetCarResponseDto addCar(AddCarRequestDto dto) {
         Person person = searchService.searchPersonById(dto.getPersonId());
         if (person == null) throw new NoSuchElementException("Person not found");
 
         Car car = mapper.fromAddCarRequestDto(dto);
         carRepository.save(car);
-        return car;
+        return mapper.fromCar(car);
     }
 
     @Override

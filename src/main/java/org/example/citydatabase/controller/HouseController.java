@@ -3,13 +3,14 @@ package org.example.citydatabase.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.example.citydatabase.dto.AddHouseRequestDto;
+import org.example.citydatabase.dto.house.AddHouseRequestDto;
+import org.example.citydatabase.dto.house.GetHouseResponseDto;
 import org.example.citydatabase.entity.House;
 import org.example.citydatabase.service.HouseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Для жителей")
+@Tag(name = "API для домов")
 @RestController
 @RequestMapping("/city/house")
 @RequiredArgsConstructor
@@ -19,18 +20,18 @@ public class HouseController {
 
     @Operation(summary = "Получить дом")
     @GetMapping("/{id}")
-    ResponseEntity<House> getHouse(@PathVariable(name = "id") Long houseId) {
-        House house = service.getHouse(houseId);
+    ResponseEntity<GetHouseResponseDto> getHouse(@PathVariable(name = "id") Long houseId) {
+        GetHouseResponseDto responseDto = service.getHouse(houseId);
 
-        return ResponseEntity.ok(house);
+        return ResponseEntity.ok(responseDto);
     }
 
     @Operation(summary = "Добавить дом")
     @PostMapping("/")
-    ResponseEntity<House> addHouse(AddHouseRequestDto dto) {
-        House house = service.addHouse(dto);
+    ResponseEntity<GetHouseResponseDto> addHouse(AddHouseRequestDto requestDto) {
+        GetHouseResponseDto responseDto = service.addHouse(requestDto);
 
-        return ResponseEntity.ok(house);
+        return ResponseEntity.ok(responseDto);
     }
 
     @Operation(summary = "Удалить дом")

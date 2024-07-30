@@ -1,4 +1,4 @@
-package org.example.citydatabase.dto;
+package org.example.citydatabase.dto.car;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddCarRequestDto {
+public class GetCarResponseDto {
+
+    @JsonProperty("id")
+    private Long id;
 
     @JsonProperty("gos_number")
     private String gosNumber;
@@ -21,7 +24,4 @@ public class AddCarRequestDto {
 
     @JsonProperty("color")
     private String color;
-
-    @JsonProperty("person_id")
-    private Long personId;
 }

@@ -3,13 +3,14 @@ package org.example.citydatabase.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.example.citydatabase.dto.AddPersonRequestDto;
+import org.example.citydatabase.dto.person.AddPersonRequestDto;
+import org.example.citydatabase.dto.person.GetPersonResponseDto;
 import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.service.PersonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Для домов")
+@Tag(name = "API для жителей")
 @RestController
 @RequestMapping("/city/person")
 @RequiredArgsConstructor
@@ -19,18 +20,18 @@ public class PersonController {
 
     @Operation(summary = "Получить жителя")
     @GetMapping("/{id}")
-    public ResponseEntity<Person> getPerson(@PathVariable(name = "id") Long personId) {
-        Person person = service.getPerson(personId);
+    public ResponseEntity<GetPersonResponseDto> getPerson(@PathVariable(name = "id") Long personId) {
+        GetPersonResponseDto responseDto = service.getPerson(personId);
 
-        return ResponseEntity.ok(person);
+        return ResponseEntity.ok(responseDto);
     }
 
     @Operation(summary = "Добавить жителя")
     @PostMapping("/")
-    public ResponseEntity<Person> addPerson(@RequestBody AddPersonRequestDto dto) {
-        Person person = service.addPerson(dto);
+    public ResponseEntity<GetPersonResponseDto> addPerson(@RequestBody AddPersonRequestDto requestDto) {
+        GetPersonResponseDto responseDto = service.addPerson(requestDto);
 
-        return ResponseEntity.ok(person);
+        return ResponseEntity.ok(responseDto);
     }
 
     @Operation(summary = "Удалить жителя")
