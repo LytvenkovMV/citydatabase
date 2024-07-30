@@ -11,6 +11,9 @@
             <column autoIncrement="true" name="id" type="serial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="series" type="int">
+                <constraints nullable="false"/>
+            </column>
             <column name="number" type="int">
                 <constraints nullable="false"/>
             </column>
