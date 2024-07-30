@@ -14,11 +14,11 @@ public class PassportServiceImpl implements PassportService {
 
     private final PassportRepository repository;
 
-//    @Value("${citydatabase.passportservice.office-code}")
-    private String officeCode = "1234";
+    @Value("${citydatabase.passportservice.office-code}")
+    private String officeCode;
 
-//    @Value("${citydatabase.passportservice.pasport-series}")
-    private Integer series = 4606;
+    @Value("${citydatabase.passportservice.pasport-series}")
+    private Integer series;
 
     @Override
     public Passport addPassport() {
