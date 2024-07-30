@@ -15,8 +15,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CarServiceImpl implements CarService {
 
+    private final SearchService searchService;
+
     private final CarRepository carRepository;
-    private final PersonService personService;
     private final CarMapper mapper;
 
     @Override
@@ -29,7 +30,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car addCar(AddCarRequestDto dto) {
-        Person person = personService.getPerson(dto.getPersonId());
+        Person person = searchService.searchPersonById(dto.getPersonId());
         if (person == null) throw new NoSuchElementException("Person not found");
 
         Car car = mapper.fromAddCarRequestDto(dto);

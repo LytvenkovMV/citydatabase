@@ -6,7 +6,6 @@ import org.example.citydatabase.repository.PassportRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Service
@@ -15,39 +14,20 @@ public class PassportServiceImpl implements PassportService {
 
     private final PassportRepository repository;
 
-    @Value("${citydatabase.passportservice.office-code}")
-    private String officeCode;
+//    @Value("${citydatabase.passportservice.office-code}")
+    private String officeCode = "1234";
+
+//    @Value("${citydatabase.passportservice.pasport-series}")
+    private Integer series = 4606;
 
     @Override
     public Passport addPassport() {
-
-
-
-
-
-
-
-
         Passport passport = new Passport();
-        passport.setIssueDate((new Date()));
+        passport.setSeries(series);
         passport.setOfficeCode(officeCode);
-        /////////////passport.setNumber(456666666666666666666666);
+        passport.setIssueDate((new Date()));
+
         repository.save(passport);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         return passport;
     }

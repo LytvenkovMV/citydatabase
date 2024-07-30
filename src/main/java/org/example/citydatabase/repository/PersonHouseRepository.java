@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface PersonHouseRepository extends CrudRepository<PersonHouse, Long> {
 
     void deleteAllByHouseId(Long houseId);
+
     void deleteAllByPersonId(Long personId);
 }

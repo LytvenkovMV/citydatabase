@@ -21,11 +21,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
 
-    private final PersonRepository personRepository;
-    private final HouseService houseService;
+    private final SearchService searchService;
     private final PersonHouseService personHouseService;
     private final PassportService passportService;
     private final CarService carService;
+
+    private final PersonRepository personRepository;
     private final PersonMapper mapper;
 
     @Override
@@ -46,7 +47,7 @@ public class PersonServiceImpl implements PersonService {
         personRepository.save(person);
 
         for (Long houseId : dto.getHousesId()) {
-            House house = houseService.getHouse(houseId);
+            House house = searchService.searchHoseById(houseId);
             if (house == null) throw new NoSuchElementException("House not found");
 
             personHouseService.addPersonHouse(person, house);
