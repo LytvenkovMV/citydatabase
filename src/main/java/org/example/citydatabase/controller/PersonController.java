@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Для домов")
 @RestController
-@RequestMapping("/citydatabase/person")
+@RequestMapping("/city/person")
 @RequiredArgsConstructor
 public class PersonController {
 

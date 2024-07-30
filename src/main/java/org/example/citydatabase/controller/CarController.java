@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Для машин")
 @RestController
-@RequestMapping("/citydatabase/car")
+@RequestMapping("/city/car")
 @RequiredArgsConstructor
 public class CarController {
 
