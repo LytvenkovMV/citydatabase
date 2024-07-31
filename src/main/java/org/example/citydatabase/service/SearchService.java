@@ -1,21 +1,16 @@
 package org.example.citydatabase.service;
 
-import org.example.citydatabase.entity.Car;
-import org.example.citydatabase.entity.House;
-import org.example.citydatabase.entity.Passport;
-import org.example.citydatabase.entity.Person;
+import org.example.citydatabase.dto.car.GetCarResponseDto;
+import org.example.citydatabase.dto.passport.GetPassportResponseDto;
+import org.example.citydatabase.dto.person.GetPersonResponseDto;
 
 import java.util.List;
 
 public interface SearchService {
 
-    Person searchPersonById(Long personId);
+    List<GetCarResponseDto> searchPersonCars(Long personId);
 
-    House searchHoseById(Long houseId);
+    List<GetPersonResponseDto> searchPersonByHouseOnStreet(String streetName);
 
-    List<Car> searchPersonCars(Long personId);
-
-    List<Person> searchPersonByHouseOnStreet(String streetName);
-
-    List<Passport> searchPassportByPersonWithSurnameStarts(Character startChar);
+    List<GetPassportResponseDto> searchPassportByPersonWithSurnameStarts(Character startChar);
 }

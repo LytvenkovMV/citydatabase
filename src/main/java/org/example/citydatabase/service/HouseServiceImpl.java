@@ -18,18 +18,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class HouseServiceImpl implements HouseService {
 
-    private final SearchService searchService;
+    private final EntityProvider entityProvider;
     private final PersonHouseService personHouseService;
 
     private final HouseRepository houseRepository;
     private final HouseMapper mapper;
 
     @Override
-    public GetHouseResponseDto getHouse(Long houseId) {
+    public House getHouseEntity(Long houseId) {
         Optional<House> optHouse = houseRepository.findById(houseId);
         if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
 
-        return mapper.fromHouse(optHouse.get());
+        return optHouse.get();
+    }
+
+    @Override
+    public GetHouseResponseDto getHouse(Long houseId) {
+        House house = getHouseEntity(houseId);
+
+        return mapper.fromHouse(house);
     }
 
     @Override
@@ -39,7 +46,7 @@ public class HouseServiceImpl implements HouseService {
         houseRepository.save(house);
 
         for (Long personId : dto.getPersonsId()) {
-            Person person = searchService.searchPersonById(personId);
+            Person person = entityProvider.getPersonById(personId);
             if (person == null) throw new NoSuchElementException("Person not found");
 
             personHouseService.addPersonHouse(person, house);

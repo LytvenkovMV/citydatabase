@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
 
-    private final SearchService searchService;
+    private final EntityProvider entityProvider;
     private final PersonHouseService personHouseService;
     private final PassportService passportService;
     private final CarService carService;
@@ -30,11 +30,18 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper mapper;
 
     @Override
-    public GetPersonResponseDto getPerson(Long personId) {
+    public Person getPersonEntity(Long personId) {
         Optional<Person> optPerson = personRepository.findById(personId);
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
 
-        return mapper.fromPerson(optPerson.get());
+        return optPerson.get();
+    }
+
+    @Override
+    public GetPersonResponseDto getPerson(Long personId) {
+        Person person = getPersonEntity(personId);
+
+        return mapper.fromPerson(person);
     }
 
     @Override
@@ -47,7 +54,7 @@ public class PersonServiceImpl implements PersonService {
         personRepository.save(person);
 
         for (Long houseId : dto.getHousesId()) {
-            House house = searchService.searchHoseById(houseId);
+            House house = entityProvider.getHouseById(houseId);
             if (house == null) throw new NoSuchElementException("House not found");
 
             personHouseService.addPersonHouse(person, house);

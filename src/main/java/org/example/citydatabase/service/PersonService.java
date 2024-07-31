@@ -6,6 +6,8 @@ import org.example.citydatabase.entity.Person;
 
 public interface PersonService {
 
+    Person getPersonEntity(Long personId);
+
     GetPersonResponseDto getPerson(Long personId);
 
     GetPersonResponseDto addPerson(AddPersonRequestDto dto);

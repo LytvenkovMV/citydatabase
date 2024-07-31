@@ -1,38 +1,32 @@
 package org.example.citydatabase.service;
 
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
+import org.example.citydatabase.dto.car.GetCarResponseDto;
 import org.example.citydatabase.entity.Car;
-import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Passport;
 import org.example.citydatabase.entity.Person;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService {
 
-    @Setter
-    private PersonService personService;
-
-    @Setter
-    private HouseService houseService;
+    private final EntityProvider entityProvider;
+    private final CarService carService;
 
     @Override
-    public Person searchPersonById(Long personId) {
-        return personService.getPerson(personId);
-    }
+    public List<GetCarResponseDto> searchPersonCars(Long personId) {
+        Person person = entityProvider.getPersonById(personId);
 
-    @Override
-    public House searchHoseById(Long houseId) {
-        return houseService.getHouse(houseId);
-    }
-
-    @Override
-    public List<Car> searchPersonCars(Long personId) {
-        Person person = personService.getPerson(personId);
-
-        return person.getCars();
+        List<GetCarResponseDto> cars = new ArrayList<>();
+        for (Car car : person.getCars()) {
+            GetCarResponseDto dto = carService.getCar(car.getId());
+            cars.add(dto);
+        }
+        return cars;
     }
 
     @Override

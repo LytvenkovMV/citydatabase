@@ -6,6 +6,8 @@ import org.example.citydatabase.entity.House;
 
 public interface HouseService {
 
+    House getHouseEntity(Long houseId);
+
     GetHouseResponseDto getHouse(Long houseId);
 
     GetHouseResponseDto addHouse(AddHouseRequestDto dto);
