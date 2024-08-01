@@ -1,4 +1,4 @@
-package org.example.citydatabase.service;
+package org.example.citydatabase.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.dto.car.GetCarResponseDto;
@@ -7,6 +7,7 @@ import org.example.citydatabase.dto.person.GetPersonResponseDto;
 import org.example.citydatabase.entity.Car;
 import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Person;
+import org.example.citydatabase.service.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package org.example.citydatabase.service;
+package org.example.citydatabase.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.dto.passport.GetPassportResponseDto;
@@ -6,6 +6,7 @@ import org.example.citydatabase.entity.Passport;
 import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.mapper.PassportMapper;
 import org.example.citydatabase.repository.PassportRepository;
+import org.example.citydatabase.service.PassportService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

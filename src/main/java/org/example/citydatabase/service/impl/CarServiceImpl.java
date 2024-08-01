@@ -1,4 +1,4 @@
-package org.example.citydatabase.service;
+package org.example.citydatabase.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.dto.car.AddCarRequestDto;
@@ -7,6 +7,8 @@ import org.example.citydatabase.entity.Car;
 import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.mapper.CarMapper;
 import org.example.citydatabase.repository.CarRepository;
+import org.example.citydatabase.service.CarService;
+import org.example.citydatabase.service.EntityProvider;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;

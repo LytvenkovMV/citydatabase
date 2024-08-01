@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface HouseRepository extends CrudRepository<House, Long> {
 
-    @Query(value = "select h from House h where h.address like %?1%")
+    @Query(value = "select h from House h where h.address ilike %?1%")
     List<House> findAllByStreetName(String streetName);
 }

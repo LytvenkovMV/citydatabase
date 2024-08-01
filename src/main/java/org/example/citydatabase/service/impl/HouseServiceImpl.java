@@ -1,4 +1,4 @@
-package org.example.citydatabase.service;
+package org.example.citydatabase.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.dto.house.AddHouseRequestDto;
@@ -7,6 +7,9 @@ import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.mapper.HouseMapper;
 import org.example.citydatabase.repository.HouseRepository;
+import org.example.citydatabase.service.EntityProvider;
+import org.example.citydatabase.service.HouseService;
+import org.example.citydatabase.service.PersonHouseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;

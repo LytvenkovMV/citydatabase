@@ -1,10 +1,11 @@
-package org.example.citydatabase.service;
+package org.example.citydatabase.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.entity.PersonHouse;
 import org.example.citydatabase.repository.PersonHouseRepository;
+import org.example.citydatabase.service.PersonHouseService;
 import org.springframework.stereotype.Service;
 
 @Service
