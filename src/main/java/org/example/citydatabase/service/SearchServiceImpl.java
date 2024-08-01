@@ -2,8 +2,9 @@ package org.example.citydatabase.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.dto.car.GetCarResponseDto;
+import org.example.citydatabase.dto.passport.GetPassportResponseDto;
+import org.example.citydatabase.dto.person.GetPersonResponseDto;
 import org.example.citydatabase.entity.Car;
-import org.example.citydatabase.entity.Passport;
 import org.example.citydatabase.entity.Person;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +31,12 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<Person> searchPersonByHouseOnStreet(String streetName) {
+    public List<GetPersonResponseDto> searchPersonByHouseOnStreet(String streetName) {
         return List.of();
     }
 
     @Override
-    public List<Passport> searchPassportByPersonWithSurnameStarts(Character startChar) {
+    public List<GetPassportResponseDto> searchPassportByPersonWithSurnameStarts(Character startChar) {
         return List.of();
     }
 }

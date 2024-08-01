@@ -6,7 +6,8 @@ import org.example.citydatabase.entity.Person;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        uses = {CarMapper.class, HouseMapper.class, PassportMapper.class})
 public interface PersonMapper {
 
     @Mapping(target = "id", ignore = true)
