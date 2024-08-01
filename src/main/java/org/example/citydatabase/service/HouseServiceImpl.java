@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -21,15 +22,20 @@ public class HouseServiceImpl implements HouseService {
     private final EntityProvider entityProvider;
     private final PersonHouseService personHouseService;
 
-    private final HouseRepository houseRepository;
+    private final HouseRepository repository;
     private final HouseMapper mapper;
 
     @Override
     public House getHouseEntity(Long houseId) {
-        Optional<House> optHouse = houseRepository.findById(houseId);
+        Optional<House> optHouse = repository.findById(houseId);
         if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
 
         return optHouse.get();
+    }
+
+    @Override
+    public List<House> getHousesBy(String streetName) {
+        return repository.findAllByStreetName(streetName);
     }
 
     @Override
@@ -43,7 +49,7 @@ public class HouseServiceImpl implements HouseService {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public GetHouseResponseDto addHouse(AddHouseRequestDto dto) {
         House house = mapper.fromAddHouseRequestDto(dto);
-        houseRepository.save(house);
+        repository.save(house);
 
         for (Long personId : dto.getPersonsId()) {
             Person person = entityProvider.getPersonById(personId);
@@ -58,10 +64,10 @@ public class HouseServiceImpl implements HouseService {
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void deleteHouse(Long houseId) {
-        Optional<House> optHouse = houseRepository.findById(houseId);
+        Optional<House> optHouse = repository.findById(houseId);
         if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
 
         personHouseService.deleteAllByHouseId(houseId);
-        houseRepository.delete(optHouse.get());
+        repository.delete(optHouse.get());
     }
 }

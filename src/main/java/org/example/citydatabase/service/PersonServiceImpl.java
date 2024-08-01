@@ -26,15 +26,20 @@ public class PersonServiceImpl implements PersonService {
     private final PassportService passportService;
     private final CarService carService;
 
-    private final PersonRepository personRepository;
+    private final PersonRepository repository;
     private final PersonMapper mapper;
 
     @Override
     public Person getPersonEntity(Long personId) {
-        Optional<Person> optPerson = personRepository.findById(personId);
+        Optional<Person> optPerson = repository.findById(personId);
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
 
         return optPerson.get();
+    }
+
+    @Override
+    public List<Person> getPersonsBy(Character surnameStartChar) {
+        return repository.findAllBySurnameStartingWith(surnameStartChar);
     }
 
     @Override
@@ -51,7 +56,7 @@ public class PersonServiceImpl implements PersonService {
         Passport passport = passportService.addPassport();
         person.setPassport(passport);
 
-        personRepository.save(person);
+        repository.save(person);
 
         for (Long houseId : dto.getHousesId()) {
             House house = entityProvider.getHouseById(houseId);
@@ -66,7 +71,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void deletePerson(Long personId) {
-        Optional<Person> optPerson = personRepository.findById(personId);
+        Optional<Person> optPerson = repository.findById(personId);
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
 
         Person person = optPerson.get();
@@ -76,6 +81,6 @@ public class PersonServiceImpl implements PersonService {
         for (Car c : cars) carService.deleteCar(c.getId());
         personHouseService.deleteAllByPersonId(personId);
         passportService.deletePassport(passport.getId());
-        personRepository.delete(person);
+        repository.delete(person);
     }
 }

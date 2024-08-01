@@ -39,8 +39,8 @@ public class SearchController {
 
     @Operation(summary = "Найти все паспорта, в которых фамилия владельца начинается на указаную букву")
     @GetMapping("/persons/passports/")
-    ResponseEntity<List<GetPassportResponseDto>> searchPassportByPersonWithSurnameStarts(@RequestParam(name = "surname_start_char") Character startChar) {
-        List<GetPassportResponseDto> passports = searchService.searchPassportByPersonWithSurnameStarts(startChar);
+    ResponseEntity<List<GetPassportResponseDto>> searchPassportWithSurnameStartingWith(@RequestParam(name = "surname_start_char") Character startChar) {
+        List<GetPassportResponseDto> passports = searchService.searchPassportWithSurnameStartingWith(startChar);
 
         return ResponseEntity.ok(passports);
     }

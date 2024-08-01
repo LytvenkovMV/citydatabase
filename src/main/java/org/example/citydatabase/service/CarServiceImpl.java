@@ -18,12 +18,12 @@ public class CarServiceImpl implements CarService {
 
     private final EntityProvider entityProvider;
 
-    private final CarRepository carRepository;
+    private final CarRepository repository;
     private final CarMapper mapper;
 
     @Override
     public GetCarResponseDto getCar(Long carId) {
-        Optional<Car> optCar = carRepository.findById(carId);
+        Optional<Car> optCar = repository.findById(carId);
         if (optCar.isEmpty()) throw new NoSuchElementException("Car not found");
 
         return mapper.fromCar(optCar.get());
@@ -35,15 +35,15 @@ public class CarServiceImpl implements CarService {
         if (person == null) throw new NoSuchElementException("Person not found");
 
         Car car = mapper.fromAddCarRequestDtoAndPerson(dto, person);
-        carRepository.save(car);
+        repository.save(car);
         return mapper.fromCar(car);
     }
 
     @Override
     public void deleteCar(Long carId) {
-        Optional<Car> optCar = carRepository.findById(carId);
+        Optional<Car> optCar = repository.findById(carId);
         if (optCar.isEmpty()) throw new NoSuchElementException("Car not found");
 
-        carRepository.delete(optCar.get());
+        repository.delete(optCar.get());
     }
 }

@@ -12,5 +12,5 @@ public interface SearchService {
 
     List<GetPersonResponseDto> searchPersonByHouseOnStreet(String streetName);
 
-    List<GetPassportResponseDto> searchPassportByPersonWithSurnameStarts(Character startChar);
+    List<GetPassportResponseDto> searchPassportWithSurnameStartingWith(Character startChar);
 }

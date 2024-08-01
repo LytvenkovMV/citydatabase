@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.dto.person.AddPersonRequestDto;
 import org.example.citydatabase.dto.person.GetPersonResponseDto;
-import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.service.PersonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
