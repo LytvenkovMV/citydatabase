@@ -5,14 +5,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.dto.house.AddHouseRequestDto;
 import org.example.citydatabase.dto.house.GetHouseResponseDto;
-import org.example.citydatabase.entity.House;
 import org.example.citydatabase.service.HouseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "API для домов")
 @RestController
-@RequestMapping("/city/house")
+@RequestMapping("/api/city/houses")
 @RequiredArgsConstructor
 public class HouseController {
 

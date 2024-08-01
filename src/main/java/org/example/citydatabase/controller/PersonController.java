@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "API для жителей")
 @RestController
-@RequestMapping("/city/person")
+@RequestMapping("/api/city/persons")
 @RequiredArgsConstructor
 public class PersonController {
 
