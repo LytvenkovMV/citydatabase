@@ -10,7 +10,7 @@ public interface SearchService {
 
     List<GetCarResponseDto> searchPersonCars(Long personId);
 
-    List<GetPersonResponseDto> searchPersonByHouseOnStreet(String streetName);
+    List<GetPersonResponseDto> searchPersonsByHousesOnStreet(String streetName);
 
     List<GetPassportResponseDto> searchPassportWithSurnameStartingWith(Character startChar);
 }

@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface HouseService {
 
-    House getHouseEntity(Long houseId);
+    House getHouse(Long houseId);
 
     List<House> getHousesBy(String streetName);
 
-    GetHouseResponseDto getHouse(Long houseId);
+    GetHouseResponseDto getHouseDto(Long houseId);
 
     GetHouseResponseDto addHouse(AddHouseRequestDto dto);
 

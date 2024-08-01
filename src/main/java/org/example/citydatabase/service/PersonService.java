@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface PersonService {
 
-    Person getPersonEntity(Long personId);
+    Person getPerson(Long personId);
 
     List<Person> getPersonsBy(Character surnameStartChar);
 
-    GetPersonResponseDto getPerson(Long personId);
+    GetPersonResponseDto getPersonDto(Long personId);
 
     GetPersonResponseDto addPerson(AddPersonRequestDto dto);
 

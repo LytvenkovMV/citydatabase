@@ -30,7 +30,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper mapper;
 
     @Override
-    public Person getPersonEntity(Long personId) {
+    public Person getPerson(Long personId) {
         Optional<Person> optPerson = repository.findById(personId);
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
 
@@ -43,8 +43,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public GetPersonResponseDto getPerson(Long personId) {
-        Person person = getPersonEntity(personId);
+    public GetPersonResponseDto getPersonDto(Long personId) {
+        Person person = getPerson(personId);
 
         return mapper.fromPerson(person);
     }

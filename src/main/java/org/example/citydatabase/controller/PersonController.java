@@ -20,7 +20,7 @@ public class PersonController {
     @Operation(summary = "Получить жителя")
     @GetMapping("/{id}")
     public ResponseEntity<GetPersonResponseDto> getPerson(@PathVariable(name = "id") Long personId) {
-        GetPersonResponseDto responseDto = service.getPerson(personId);
+        GetPersonResponseDto responseDto = service.getPersonDto(personId);
 
         return ResponseEntity.ok(responseDto);
     }

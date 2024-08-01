@@ -5,7 +5,7 @@ import org.example.citydatabase.entity.Passport;
 
 public interface PassportService {
 
-    GetPassportResponseDto getPassport(Long passportId);
+    GetPassportResponseDto getPassportDto(Long passportId);
 
     Passport addPassport();
 

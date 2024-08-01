@@ -30,8 +30,8 @@ public class SearchController {
 
     @Operation(summary = "Найти всех жителей, которым принадлежат дома на указаной улице")
     @GetMapping("/persons/houses")
-    ResponseEntity<List<GetPersonResponseDto>> searchPersonByHouseOnStreet(@RequestParam(name = "street_name") String streetName) {
-        List<GetPersonResponseDto> persons = searchService.searchPersonByHouseOnStreet(streetName);
+    ResponseEntity<List<GetPersonResponseDto>> searchPersonsByHousesOnStreet(@RequestParam(name = "street_name") String streetName) {
+        List<GetPersonResponseDto> persons = searchService.searchPersonsByHousesOnStreet(streetName);
 
         return ResponseEntity.ok(persons);
     }

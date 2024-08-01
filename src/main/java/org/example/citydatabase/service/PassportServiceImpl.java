@@ -27,7 +27,7 @@ public class PassportServiceImpl implements PassportService {
     private Integer series;
 
     @Override
-    public GetPassportResponseDto getPassport(Long passportId) {
+    public GetPassportResponseDto getPassportDto(Long passportId) {
         Optional<Passport> optPassport = repository.findById(passportId);
         if (optPassport.isEmpty()) throw new NoSuchElementException("Passport not found");
 

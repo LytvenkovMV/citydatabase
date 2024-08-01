@@ -15,12 +15,12 @@ public class EntityProviderImpl implements EntityProvider {
     @Override
     public Person getPersonById(Long personId) {
 
-        return personService.getPersonEntity(personId);
+        return personService.getPerson(personId);
     }
 
     @Override
     public House getHouseById(Long houseId) {
 
-        return houseService.getHouseEntity(houseId);
+        return houseService.getHouse(houseId);
     }
 }

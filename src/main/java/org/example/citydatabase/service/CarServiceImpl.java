@@ -22,7 +22,7 @@ public class CarServiceImpl implements CarService {
     private final CarMapper mapper;
 
     @Override
-    public GetCarResponseDto getCar(Long carId) {
+    public GetCarResponseDto getCarDto(Long carId) {
         Optional<Car> optCar = repository.findById(carId);
         if (optCar.isEmpty()) throw new NoSuchElementException("Car not found");
 

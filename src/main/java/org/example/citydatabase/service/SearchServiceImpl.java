@@ -23,23 +23,23 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public List<GetCarResponseDto> searchPersonCars(Long personId) {
-        Person person = personService.getPersonEntity(personId);
+        Person person = personService.getPerson(personId);
 
         List<GetCarResponseDto> cars = new ArrayList<>();
         for (Car car : person.getCars()) {
-            GetCarResponseDto dto = carService.getCar(car.getId());
+            GetCarResponseDto dto = carService.getCarDto(car.getId());
             cars.add(dto);
         }
         return cars;
     }
 
     @Override
-    public List<GetPersonResponseDto> searchPersonByHouseOnStreet(String streetName) {
+    public List<GetPersonResponseDto> searchPersonsByHousesOnStreet(String streetName) {
         List<House> houses = houseService.getHousesBy(streetName);
 
         List<GetPersonResponseDto> dtoList = houses.stream()
                 .flatMap(h -> h.getPersons().stream())
-                .map(p -> personService.getPerson(p.getId()))
+                .map(p -> personService.getPersonDto(p.getId()))
                 .toList();
 
         return dtoList;
@@ -52,7 +52,7 @@ public class SearchServiceImpl implements SearchService {
 
         List<GetPassportResponseDto> dtoList = persons.stream()
                 .map(Person::getPassport)
-                .map(passport -> passportService.getPassport(passport.getId()))
+                .map(passport -> passportService.getPassportDto(passport.getId()))
                 .toList();
 
         return dtoList;

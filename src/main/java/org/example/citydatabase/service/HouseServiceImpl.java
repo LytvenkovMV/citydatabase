@@ -26,7 +26,7 @@ public class HouseServiceImpl implements HouseService {
     private final HouseMapper mapper;
 
     @Override
-    public House getHouseEntity(Long houseId) {
+    public House getHouse(Long houseId) {
         Optional<House> optHouse = repository.findById(houseId);
         if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
 
@@ -39,8 +39,8 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public GetHouseResponseDto getHouse(Long houseId) {
-        House house = getHouseEntity(houseId);
+    public GetHouseResponseDto getHouseDto(Long houseId) {
+        House house = getHouse(houseId);
 
         return mapper.fromHouse(house);
     }

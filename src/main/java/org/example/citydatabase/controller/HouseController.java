@@ -20,7 +20,7 @@ public class HouseController {
     @Operation(summary = "Получить дом")
     @GetMapping("/{id}")
     ResponseEntity<GetHouseResponseDto> getHouse(@PathVariable(name = "id") Long houseId) {
-        GetHouseResponseDto responseDto = service.getHouse(houseId);
+        GetHouseResponseDto responseDto = service.getHouseDto(houseId);
 
         return ResponseEntity.ok(responseDto);
     }
