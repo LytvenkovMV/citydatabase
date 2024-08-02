@@ -11,13 +11,15 @@ public class ExControllerAdvice {
 
     @ExceptionHandler(value = {NoSuchElementException.class})
     public ResponseEntity<String> handleBadRequestEx(NoSuchElementException e) {
+        e.printStackTrace();
 
         return ResponseEntity.status(404).body(e.getMessage());
     }
 
     @ExceptionHandler(value = {RuntimeException.class})
     public ResponseEntity<String> handleBadRequestEx(RuntimeException e) {
+        e.printStackTrace();
 
-        return ResponseEntity.status(503).body(e.getMessage());
+        return ResponseEntity.status(503).body("Service Unavailable");
     }
 }
