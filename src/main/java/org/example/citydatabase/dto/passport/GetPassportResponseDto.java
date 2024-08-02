@@ -19,5 +19,5 @@ public class GetPassportResponseDto {
     private String officeCode;
 
     @JsonProperty("passport_issue_date")
-    private Date issueDate;
+    private String issueDate;
 }

@@ -3,7 +3,7 @@ package org.example.citydatabase.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -25,7 +25,7 @@ public class Person {
     private String middlename;
 
     @Column(name = "birth_date")
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "passport_id")

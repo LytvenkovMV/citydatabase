@@ -2,14 +2,12 @@ package org.example.citydatabase.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
-@Table(name = "persons")
+@Table(name = "passports")
 public class Passport {
 
     @Id
@@ -35,5 +33,5 @@ public class Passport {
     private String officeCode;
 
     @Column(name = "issue_date")
-    private Date issueDate;
+    private LocalDate issueDate;
 }
