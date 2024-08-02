@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "API для жителей")
 @RestController
-@RequestMapping("/api/city/persons")
+@RequestMapping("/city/api/persons")
 @RequiredArgsConstructor
 public class PersonController {
 
@@ -26,7 +26,7 @@ public class PersonController {
     }
 
     @Operation(summary = "Добавить жителя")
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<GetPersonResponseDto> addPerson(@RequestBody AddPersonRequestDto requestDto) {
         GetPersonResponseDto responseDto = service.addPerson(requestDto);
 

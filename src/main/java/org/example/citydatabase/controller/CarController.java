@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "API для машин")
 @RestController
-@RequestMapping("/api/city/cars")
+@RequestMapping("/city/api/cars")
 @RequiredArgsConstructor
 public class CarController {
 
@@ -28,7 +28,7 @@ public class CarController {
     }
 
     @Operation(summary = "Добавить машину")
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<GetCarResponseDto> addCar(@RequestBody AddCarRequestDto requestDto) {
         GetCarResponseDto responseDto = service.addCar(requestDto);
 

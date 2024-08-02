@@ -14,7 +14,7 @@ import java.util.List;
 
 @Tag(name = "API для поиска")
 @RestController
-@RequestMapping("/api/city/search")
+@RequestMapping("/city/api/search")
 @RequiredArgsConstructor
 public class SearchController {
 
