@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
-    @Query(value = "SELECT * FROM persons WHERE surname LIKE :character"
+    @Query(value = "SELECT * FROM persons WHERE surname LIKE :ch%"
             , nativeQuery = true)
-    List<Person> findAllBySurnameStartingWith(@Param("character") Character character);
+    List<Person> findAllBySurnameStartingWith(@Param("ch") Character ch);
 }

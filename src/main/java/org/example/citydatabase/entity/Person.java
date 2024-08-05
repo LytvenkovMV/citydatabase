@@ -31,13 +31,13 @@ public class Person {
     @JoinColumn(name = "passport_id")
     private Passport passport;
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<Car> cars;
 
     @ManyToMany
     @JoinTable(name = "persons_houses"
-            , joinColumns = @JoinColumn(name = "house_id")
-            , inverseJoinColumns = @JoinColumn(name = "person_id")
+            , joinColumns = @JoinColumn(name = "person_id")
+            , inverseJoinColumns = @JoinColumn(name = "house_id")
     )
     private List<House> houses;
 }

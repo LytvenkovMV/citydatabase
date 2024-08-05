@@ -24,7 +24,7 @@ public class Car {
     @Column(name = "color")
     private String color;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private Person person;
 }

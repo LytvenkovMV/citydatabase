@@ -3,7 +3,6 @@ package org.example.citydatabase.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.dto.person.AddPersonRequestDto;
 import org.example.citydatabase.dto.person.GetPersonResponseDto;
-import org.example.citydatabase.entity.Car;
 import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Passport;
 import org.example.citydatabase.entity.Person;
@@ -76,12 +75,7 @@ public class PersonServiceImpl implements PersonService {
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
 
         Person person = optPerson.get();
-        Passport passport = person.getPassport();
-        List<Car> cars = person.getCars();
-
-        for (Car c : cars) carService.deleteCar(c.getId());
         personHouseService.deleteAllByPersonId(personId);
-        passportService.deletePassport(passport.getId());
         repository.delete(person);
     }
 }

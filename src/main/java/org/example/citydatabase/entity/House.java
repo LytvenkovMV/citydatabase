@@ -26,8 +26,8 @@ public class House {
 
     @ManyToMany
     @JoinTable(name = "persons_houses"
-            , joinColumns = @JoinColumn(name = "person_id")
-            , inverseJoinColumns = @JoinColumn(name = "house_id")
+            , joinColumns = @JoinColumn(name = "house_id")
+            , inverseJoinColumns = @JoinColumn(name = "person_id")
     )
     List<Person> persons;
 }
