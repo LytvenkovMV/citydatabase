@@ -9,5 +9,7 @@ public interface CarService {
 
     GetCarResponseDto addCar(AddCarRequestDto dto);
 
+    GetCarResponseDto updateCar(Long carId, AddCarRequestDto dto);
+
     void deleteCar(Long carId);
 }

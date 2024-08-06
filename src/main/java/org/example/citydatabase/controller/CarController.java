@@ -35,6 +35,15 @@ public class CarController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @Operation(summary = "Обновить машину")
+    @PutMapping("/{id}")
+    public ResponseEntity<GetCarResponseDto> updateCar(@PathVariable(name = "id") Long carId,
+                                                       @RequestBody AddCarRequestDto requestDto) {
+        GetCarResponseDto responseDto = service.updateCar(carId, requestDto);
+
+        return ResponseEntity.ok(responseDto);
+    }
+
     @Operation(summary = "Удалить машину")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable(name = "id") Long carId) {

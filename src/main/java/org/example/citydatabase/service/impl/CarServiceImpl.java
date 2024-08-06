@@ -8,7 +8,7 @@ import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.mapper.CarMapper;
 import org.example.citydatabase.repository.CarRepository;
 import org.example.citydatabase.service.CarService;
-import org.example.citydatabase.service.EntityProvider;
+import org.example.citydatabase.service.PersonService;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CarServiceImpl implements CarService {
 
-    private final EntityProvider entityProvider;
+    private final PersonService personService;
 
     private final CarRepository repository;
     private final CarMapper mapper;
@@ -33,11 +33,25 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public GetCarResponseDto addCar(AddCarRequestDto dto) {
-        Person person = entityProvider.getPersonById(dto.getPersonId());
+        Person person = personService.getPerson(dto.getPersonId());
         if (person == null) throw new NoSuchElementException("Person not found");
 
         Car car = mapper.fromAddCarRequestDtoAndPerson(dto, person);
         repository.save(car);
+        return mapper.fromCar(car);
+    }
+
+    @Override
+    public GetCarResponseDto updateCar(Long carId, AddCarRequestDto dto) {
+        if (repository.existsById(carId)) throw new NoSuchElementException("Car not found");
+
+        Person person = personService.getPerson(dto.getPersonId());
+        if (person == null) throw new NoSuchElementException("Person not found");
+
+        Car car = mapper.fromAddCarRequestDtoAndPerson(dto, person);
+        car.setId(carId);
+        repository.save(car);
+
         return mapper.fromCar(car);
     }
 

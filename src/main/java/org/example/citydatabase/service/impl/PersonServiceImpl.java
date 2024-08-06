@@ -8,7 +8,10 @@ import org.example.citydatabase.entity.Passport;
 import org.example.citydatabase.entity.Person;
 import org.example.citydatabase.mapper.PersonMapper;
 import org.example.citydatabase.repository.PersonRepository;
-import org.example.citydatabase.service.*;
+import org.example.citydatabase.service.EntityProvider;
+import org.example.citydatabase.service.PassportService;
+import org.example.citydatabase.service.PersonHouseService;
+import org.example.citydatabase.service.PersonService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +27,6 @@ public class PersonServiceImpl implements PersonService {
     private final EntityProvider entityProvider;
     private final PersonHouseService personHouseService;
     private final PassportService passportService;
-    private final CarService carService;
 
     private final PersonRepository repository;
     private final PersonMapper mapper;
@@ -55,21 +57,38 @@ public class PersonServiceImpl implements PersonService {
         Person person = mapper.personFromAddPersonRequestDto(dto);
         Passport passport = passportService.addPassport();
         person.setPassport(passport);
-
         repository.save(person);
 
         for (Long houseId : dto.getHousesId()) {
             House house = entityProvider.getHouseById(houseId);
-            if (house == null) throw new NoSuchElementException("House not found");
-
-            personHouseService.addPersonHouse(person, house);
+            if (house != null) personHouseService.addPersonHouse(person, house);
         }
 
-        return mapper.fromPerson(person);
+        return getPersonDto(person.getId());
     }
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public GetPersonResponseDto updatePerson(Long personId, AddPersonRequestDto dto) {
+        Optional<Person> existingPerson = repository.findById(personId);
+        if (existingPerson.isEmpty()) throw new NoSuchElementException("Person not found");
+
+        Person person = mapper.personFromAddPersonRequestDto(dto);
+        person.setId(personId);
+        person.setPassport(existingPerson.get().getPassport());
+        repository.save(person);
+
+        personHouseService.deleteAllByPersonId(personId);
+        for (Long houseId : dto.getHousesId()) {
+            House house = entityProvider.getHouseById(houseId);
+            if (house != null) personHouseService.addPersonHouse(person, house);
+        }
+
+        return getPersonDto(personId);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.DEFAULT)
     public void deletePerson(Long personId) {
         Optional<Person> optPerson = repository.findById(personId);
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,4 +24,7 @@ public class GetHouseResponseDto {
 
     @JsonProperty("cadastr_price")
     private BigDecimal cadastrPrice;
+
+    @JsonProperty("owners")
+    private List<Long> personIds;
 }

@@ -56,9 +56,7 @@ public class HouseServiceImpl implements HouseService {
 
         for (Long personId : dto.getPersonsId()) {
             Person person = entityProvider.getPersonById(personId);
-            if (person == null) throw new NoSuchElementException("Person not found");
-
-            personHouseService.addPersonHouse(person, house);
+            if (person != null) personHouseService.addPersonHouse(person, house);
         }
 
         return mapper.fromHouse(house);
@@ -66,6 +64,24 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public GetHouseResponseDto updateHouse(Long houseId, AddHouseRequestDto dto) {
+        if (!repository.existsById(houseId)) throw new NoSuchElementException("House not found");
+
+        House house = mapper.fromAddHouseRequestDto(dto);
+        house.setId(houseId);
+        repository.save(house);
+
+        personHouseService.deleteAllByHouseId(houseId);
+        for (Long personId : dto.getPersonsId()) {
+            Person person = entityProvider.getPersonById(personId);
+            if (person != null) personHouseService.addPersonHouse(person, house);
+        }
+
+        return mapper.fromHouse(house);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.DEFAULT)
     public void deleteHouse(Long houseId) {
         Optional<House> optHouse = repository.findById(houseId);
         if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");

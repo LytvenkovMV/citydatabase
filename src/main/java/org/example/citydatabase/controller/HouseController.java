@@ -33,6 +33,15 @@ public class HouseController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @Operation(summary = "Обновить дом")
+    @PutMapping("/{id}")
+    ResponseEntity<GetHouseResponseDto> updateHouse(@PathVariable(name = "id") Long houseId,
+                                                    @RequestBody AddHouseRequestDto requestDto) {
+        GetHouseResponseDto responseDto = service.updateHouse(houseId, requestDto);
+
+        return ResponseEntity.ok(responseDto);
+    }
+
     @Operation(summary = "Удалить дом")
     @DeleteMapping("/{id}")
     ResponseEntity<String> deleteHouse(@PathVariable(name = "id") Long houseId) {

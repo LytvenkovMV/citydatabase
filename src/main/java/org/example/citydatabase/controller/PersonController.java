@@ -33,6 +33,15 @@ public class PersonController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @Operation(summary = "Обновить жителя")
+    @PutMapping("/{id}")
+    public ResponseEntity<GetPersonResponseDto> updatePerson(@PathVariable(name = "id") Long personId,
+                                                             @RequestBody AddPersonRequestDto requestDto) {
+        GetPersonResponseDto responseDto = service.updatePerson(personId, requestDto);
+
+        return ResponseEntity.ok(responseDto);
+    }
+
     @Operation(summary = "Удалить жителя")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePerson(@PathVariable(name = "id") Long personId) {
