@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: citydatabase
+
+  datasource:
+    generate-unique-name: false
+    name: bankserverdb
+    url: jdbc:postgresql://localhost:5432/bankserverdb
+    username: postgres
+    password: 12345
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: true
+    show-sql: true
+    properties.hibernate:
+      format_sql: true
+
+logging.level.org.hibernate:
+  SQL: DEBUG
+  type.descriptor.sql:
+  BasicBinder: TRACE
