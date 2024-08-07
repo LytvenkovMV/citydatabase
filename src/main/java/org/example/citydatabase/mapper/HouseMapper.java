@@ -7,6 +7,7 @@ import org.example.citydatabase.entity.Person;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -20,6 +21,8 @@ public interface HouseMapper {
     GetHouseResponseDto fromHouse(House house);
 
     default List<Long> getPersonIds(House house) {
+        if (house.getPersons() == null) return new ArrayList<>();
+
         return house.getPersons().stream()
                 .map(Person::getId)
                 .toList();

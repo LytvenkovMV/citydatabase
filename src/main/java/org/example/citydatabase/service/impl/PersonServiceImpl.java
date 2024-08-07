@@ -53,7 +53,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public GetPersonResponseDto addPerson(AddPersonRequestDto dto) {
+    public Long addPerson(AddPersonRequestDto dto) {
         Person person = mapper.personFromAddPersonRequestDto(dto);
         Passport passport = passportService.addPassport();
         person.setPassport(passport);
@@ -64,12 +64,12 @@ public class PersonServiceImpl implements PersonService {
             if (house != null) personHouseService.addPersonHouse(person, house);
         }
 
-        return getPersonDto(person.getId());
+        return person.getId();
     }
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public GetPersonResponseDto updatePerson(Long personId, AddPersonRequestDto dto) {
+    public void updatePerson(Long personId, AddPersonRequestDto dto) {
         Optional<Person> existingPerson = repository.findById(personId);
         if (existingPerson.isEmpty()) throw new NoSuchElementException("Person not found");
 
@@ -83,8 +83,6 @@ public class PersonServiceImpl implements PersonService {
             House house = entityProvider.getHouseById(houseId);
             if (house != null) personHouseService.addPersonHouse(person, house);
         }
-
-        return getPersonDto(personId);
     }
 
     @Override

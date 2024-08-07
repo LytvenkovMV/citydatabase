@@ -28,18 +28,18 @@ public class HouseController {
     @Operation(summary = "Добавить дом")
     @PostMapping
     ResponseEntity<GetHouseResponseDto> addHouse(@RequestBody AddHouseRequestDto requestDto) {
-        GetHouseResponseDto responseDto = service.addHouse(requestDto);
+        Long houseId = service.addHouse(requestDto);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(service.getHouseDto(houseId));
     }
 
     @Operation(summary = "Обновить дом")
     @PutMapping("/{id}")
     ResponseEntity<GetHouseResponseDto> updateHouse(@PathVariable(name = "id") Long houseId,
                                                     @RequestBody AddHouseRequestDto requestDto) {
-        GetHouseResponseDto responseDto = service.updateHouse(houseId, requestDto);
+        service.updateHouse(houseId, requestDto);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(service.getHouseDto(houseId));
     }
 
     @Operation(summary = "Удалить дом")

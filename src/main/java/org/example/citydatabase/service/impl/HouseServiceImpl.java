@@ -43,14 +43,15 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public GetHouseResponseDto getHouseDto(Long houseId) {
-        House house = getHouse(houseId);
+        Optional<House> optHouse = repository.findById(houseId);
+        if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
 
-        return mapper.fromHouse(house);
+        return mapper.fromHouse(optHouse.get());
     }
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public GetHouseResponseDto addHouse(AddHouseRequestDto dto) {
+    public Long addHouse(AddHouseRequestDto dto) {
         House house = mapper.fromAddHouseRequestDto(dto);
         repository.save(house);
 
@@ -59,12 +60,12 @@ public class HouseServiceImpl implements HouseService {
             if (person != null) personHouseService.addPersonHouse(person, house);
         }
 
-        return mapper.fromHouse(house);
+        return house.getId();
     }
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public GetHouseResponseDto updateHouse(Long houseId, AddHouseRequestDto dto) {
+    public void updateHouse(Long houseId, AddHouseRequestDto dto) {
         if (!repository.existsById(houseId)) throw new NoSuchElementException("House not found");
 
         House house = mapper.fromAddHouseRequestDto(dto);
@@ -76,8 +77,6 @@ public class HouseServiceImpl implements HouseService {
             Person person = entityProvider.getPersonById(personId);
             if (person != null) personHouseService.addPersonHouse(person, house);
         }
-
-        return mapper.fromHouse(house);
     }
 
     @Override

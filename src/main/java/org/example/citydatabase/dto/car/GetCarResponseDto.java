@@ -24,4 +24,7 @@ public class GetCarResponseDto {
 
     @JsonProperty("color")
     private String color;
+
+    @JsonProperty("owner_id")
+    private Long personId;
 }

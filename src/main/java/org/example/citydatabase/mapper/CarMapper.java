@@ -13,5 +13,6 @@ public interface CarMapper {
     @Mapping(target = "id", ignore = true)
     Car fromAddCarRequestDtoAndPerson(AddCarRequestDto dto, Person person);
 
+    @Mapping(target = "personId", expression = "java(car.getPerson().getId())")
     GetCarResponseDto fromCar(Car car);
 }

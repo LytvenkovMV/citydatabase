@@ -32,18 +32,18 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public GetCarResponseDto addCar(AddCarRequestDto dto) {
+    public Long addCar(AddCarRequestDto dto) {
         Person person = personService.getPerson(dto.getPersonId());
         if (person == null) throw new NoSuchElementException("Person not found");
 
         Car car = mapper.fromAddCarRequestDtoAndPerson(dto, person);
         repository.save(car);
-        return mapper.fromCar(car);
+        return car.getId();
     }
 
     @Override
-    public GetCarResponseDto updateCar(Long carId, AddCarRequestDto dto) {
-        if (repository.existsById(carId)) throw new NoSuchElementException("Car not found");
+    public void updateCar(Long carId, AddCarRequestDto dto) {
+        if (!repository.existsById(carId)) throw new NoSuchElementException("Car not found");
 
         Person person = personService.getPerson(dto.getPersonId());
         if (person == null) throw new NoSuchElementException("Person not found");
@@ -51,8 +51,6 @@ public class CarServiceImpl implements CarService {
         Car car = mapper.fromAddCarRequestDtoAndPerson(dto, person);
         car.setId(carId);
         repository.save(car);
-
-        return mapper.fromCar(car);
     }
 
     @Override

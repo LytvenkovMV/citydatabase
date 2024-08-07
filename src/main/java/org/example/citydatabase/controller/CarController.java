@@ -30,18 +30,18 @@ public class CarController {
     @Operation(summary = "Добавить машину")
     @PostMapping
     public ResponseEntity<GetCarResponseDto> addCar(@RequestBody AddCarRequestDto requestDto) {
-        GetCarResponseDto responseDto = service.addCar(requestDto);
+        Long carId = service.addCar(requestDto);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(service.getCarDto(carId));
     }
 
     @Operation(summary = "Обновить машину")
     @PutMapping("/{id}")
     public ResponseEntity<GetCarResponseDto> updateCar(@PathVariable(name = "id") Long carId,
                                                        @RequestBody AddCarRequestDto requestDto) {
-        GetCarResponseDto responseDto = service.updateCar(carId, requestDto);
+        service.updateCar(carId, requestDto);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(service.getCarDto(carId));
     }
 
     @Operation(summary = "Удалить машину")

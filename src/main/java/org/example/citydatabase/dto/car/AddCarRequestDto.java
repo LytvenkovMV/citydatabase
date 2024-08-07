@@ -22,6 +22,6 @@ public class AddCarRequestDto {
     @JsonProperty("color")
     private String color;
 
-    @JsonProperty("person_id")
+    @JsonProperty("owner_id")
     private Long personId;
 }

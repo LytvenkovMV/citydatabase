@@ -28,18 +28,18 @@ public class PersonController {
     @Operation(summary = "Добавить жителя")
     @PostMapping
     public ResponseEntity<GetPersonResponseDto> addPerson(@RequestBody AddPersonRequestDto requestDto) {
-        GetPersonResponseDto responseDto = service.addPerson(requestDto);
+        Long personId = service.addPerson(requestDto);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(service.getPersonDto(personId));
     }
 
     @Operation(summary = "Обновить жителя")
     @PutMapping("/{id}")
     public ResponseEntity<GetPersonResponseDto> updatePerson(@PathVariable(name = "id") Long personId,
                                                              @RequestBody AddPersonRequestDto requestDto) {
-        GetPersonResponseDto responseDto = service.updatePerson(personId, requestDto);
+        service.updatePerson(personId, requestDto);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(service.getPersonDto(personId));
     }
 
     @Operation(summary = "Удалить жителя")
