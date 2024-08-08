@@ -22,7 +22,7 @@ public class SearchController {
 
     @Operation(summary = "Найти все машины жителя")
     @GetMapping("/persons/{id}/cars")
-    ResponseEntity<List<GetCarResponseDto>> searchPersonCars(@PathVariable(name = "id") Long personId) {
+    public ResponseEntity<List<GetCarResponseDto>> searchPersonCars(@PathVariable(name = "id") Long personId) {
         List<GetCarResponseDto> cars = searchService.searchPersonCars(personId);
 
         return ResponseEntity.ok(cars);
@@ -30,7 +30,7 @@ public class SearchController {
 
     @Operation(summary = "Найти всех жителей, которым принадлежат дома на указаной улице")
     @GetMapping("/persons/houses")
-    ResponseEntity<List<GetPersonResponseDto>> searchPersonsByHousesOnStreet(@RequestParam(name = "street_name") String streetName) {
+    public ResponseEntity<List<GetPersonResponseDto>> searchPersonsByHousesOnStreet(@RequestParam(name = "street_name") String streetName) {
         List<GetPersonResponseDto> persons = searchService.searchPersonsByHousesOnStreet(streetName);
 
         return ResponseEntity.ok(persons);
@@ -39,7 +39,7 @@ public class SearchController {
 
     @Operation(summary = "Найти все паспорта, в которых фамилия владельца начинается на указаную букву")
     @GetMapping("/persons/passports")
-    ResponseEntity<List<GetPassportResponseDto>> searchPassportWithSurnameStartingWith(@RequestParam(name = "surname_start_char") Character startChar) {
+    public ResponseEntity<List<GetPassportResponseDto>> searchPassportWithSurnameStartingWith(@RequestParam(name = "surname_start_char") Character startChar) {
         List<GetPassportResponseDto> passports = searchService.searchPassportWithSurnameStartingWith(startChar);
 
         return ResponseEntity.ok(passports);

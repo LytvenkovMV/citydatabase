@@ -1,52 +1,16 @@
 package org.example.citydatabase.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.example.citydatabase.dto.house.AddHouseRequestDto;
 import org.example.citydatabase.dto.house.GetHouseResponseDto;
-import org.example.citydatabase.service.HouseService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "API для домов")
-@RestController
-@RequestMapping("/city/api/houses")
-@RequiredArgsConstructor
-public class HouseController {
+public interface HouseController {
 
-    private final HouseService service;
+    ResponseEntity<GetHouseResponseDto> getHouse(Long houseId);
 
-    @Operation(summary = "Получить дом")
-    @GetMapping("/{id}")
-    ResponseEntity<GetHouseResponseDto> getHouse(@PathVariable(name = "id") Long houseId) {
-        GetHouseResponseDto responseDto = service.getHouseDto(houseId);
+    ResponseEntity<GetHouseResponseDto> addHouse(AddHouseRequestDto requestDto);
 
-        return ResponseEntity.ok(responseDto);
-    }
+    ResponseEntity<GetHouseResponseDto> updateHouse(Long houseId, AddHouseRequestDto requestDto);
 
-    @Operation(summary = "Добавить дом")
-    @PostMapping
-    ResponseEntity<GetHouseResponseDto> addHouse(@RequestBody AddHouseRequestDto requestDto) {
-        Long houseId = service.addHouse(requestDto);
-
-        return ResponseEntity.ok(service.getHouseDto(houseId));
-    }
-
-    @Operation(summary = "Обновить дом")
-    @PutMapping("/{id}")
-    ResponseEntity<GetHouseResponseDto> updateHouse(@PathVariable(name = "id") Long houseId,
-                                                    @RequestBody AddHouseRequestDto requestDto) {
-        service.updateHouse(houseId, requestDto);
-
-        return ResponseEntity.ok(service.getHouseDto(houseId));
-    }
-
-    @Operation(summary = "Удалить дом")
-    @DeleteMapping("/{id}")
-    ResponseEntity<String> deleteHouse(@PathVariable(name = "id") Long houseId) {
-        service.deleteHouse(houseId);
-
-        return ResponseEntity.ok("House deleted!");
-    }
+    ResponseEntity<String> deleteHouse(Long houseId);
 }
