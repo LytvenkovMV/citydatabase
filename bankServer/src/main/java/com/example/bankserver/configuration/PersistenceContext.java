@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
-@Configuration
-@EnableTransactionManagement
-@RequiredArgsConstructor
+//////////@Configuration
+////////////@EnableTransactionManagement
+/////////////@RequiredArgsConstructor
 public class PersistenceContext {
 
 //    private final Environment environment;
@@ -41,22 +41,22 @@ public class PersistenceContext {
 //    public DataSourceConnectionProvider connectionProvider() {
 //        return new DataSourceConnectionProvider(transactionAwareDataSource());
 //    }
-
-    @Bean
-    public ExceptionTranslator exceptionTransformer() {
-        return new ExceptionTranslator();
-    }
-
-    @Bean
-    public DefaultDSLContext dsl() {
-        return new DefaultDSLContext(configuration());
-    }
-
-    @Bean
-    public DefaultConfiguration configuration() {
-        DefaultConfiguration jooqConfiguration = new DefaultConfiguration();
-        jooqConfiguration.set(new DefaultExecuteListenerProvider(exceptionTransformer()));
-
-        return jooqConfiguration;
-    }
+//
+//    @Bean
+//    public ExceptionTranslator exceptionTransformer() {
+//        return new ExceptionTranslator();
+//    }
+//
+//    @Bean
+//    public DefaultDSLContext dsl() {
+//        return new DefaultDSLContext(configuration());
+//    }
+//
+//    @Bean
+//    public DefaultConfiguration configuration() {
+//        DefaultConfiguration jooqConfiguration = new DefaultConfiguration();
+//        jooqConfiguration.set(new DefaultExecuteListenerProvider(exceptionTransformer()));
+//
+//        return jooqConfiguration;
+//    }
 }

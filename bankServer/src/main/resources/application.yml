@@ -1,6 +1,6 @@
 spring:
   application:
-    name: citydatabase
+    name: bankserver
 
   datasource:
     generate-unique-name: false
@@ -25,12 +25,12 @@ logging.level.org.hibernate:
   BasicBinder: TRACE
 
 server:
-  port: 8080
+  port: 8081
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
 
-    registerWithEureka: false
-    fetchRegistry: false
+#    registerWithEureka: false
+#    fetchRegistry: false

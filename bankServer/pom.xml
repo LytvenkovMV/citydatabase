@@ -29,17 +29,20 @@
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
-        <jooq.version>3.16.22</jooq.version>
+        <jooq.version>3.19.7</jooq.version>
         <db.driver>org.postgresql.Driver</db.driver>
         <db.url>jdbc:postgresql://localhost:5432/bankserverdb</db.url>
         <db.username>postgres</db.username>
         <db.password>12345</db.password>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
+            <version>3.3.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

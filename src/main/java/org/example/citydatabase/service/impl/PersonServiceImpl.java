@@ -57,7 +57,7 @@ public class PersonServiceImpl implements PersonService {
         Person person = mapper.personFromAddPersonRequestDto(dto);
         Passport passport = passportService.addPassport();
         person.setPassport(passport);
-        repository.save(person);
+        person = repository.save(person);
 
         for (Long houseId : dto.getHousesId()) {
             House house = entityProvider.getHouseById(houseId);
