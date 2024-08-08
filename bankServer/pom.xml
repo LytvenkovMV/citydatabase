@@ -47,19 +47,21 @@
         </dependency>
 
 
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-<!--        </dependency>-->
-
-
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+        <!--        </dependency>-->
 
 
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -140,7 +142,7 @@
                         <database>
                             <includes>.*</includes>
                             <excludes>
-                                flyway_schema_history
+                                databasechangelog | databasechangeloglock
                             </excludes>
                             <inputSchema>public</inputSchema>
                         </database>
@@ -148,8 +150,8 @@
                             <records>true</records>
                         </generate>
                         <target>
-                            <packageName>ru.xpendence.jooqexample.domain</packageName>
-                            <directory>target/generated-sources/jooq</directory>
+                            <packageName>com/example/bankserver/jook</packageName>
+                            <directory>src/main/java</directory>
                         </target>
                     </generator>
                 </configuration>
