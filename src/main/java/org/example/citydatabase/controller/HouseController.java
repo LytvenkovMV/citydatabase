@@ -8,22 +8,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "API для домов")
-@RequestMapping("/city/api/houses")
 public interface HouseController {
 
     @Operation(summary = "Получить дом")
-    @GetMapping("/{id}")
-    ResponseEntity<GetHouseResponseDto> getHouse(Long houseId);
+    @GetMapping("/city/api/houses/{id}")
+    ResponseEntity<GetHouseResponseDto> getHouse(@PathVariable(name = "id") Long houseId);
 
     @Operation(summary = "Добавить дом")
-    @PostMapping
-    ResponseEntity<GetHouseResponseDto> addHouse(AddHouseRequestDto requestDto);
+    @PostMapping("/city/api/houses")
+    ResponseEntity<GetHouseResponseDto> addHouse(@RequestBody AddHouseRequestDto requestDto);
 
     @Operation(summary = "Обновить дом")
-    @PutMapping("/{id}")
-    ResponseEntity<GetHouseResponseDto> updateHouse(Long houseId, AddHouseRequestDto requestDto);
+    @PutMapping("/city/api/houses/{id}")
+    ResponseEntity<GetHouseResponseDto> updateHouse(@PathVariable(name = "id") Long houseId,
+                                                    @RequestBody AddHouseRequestDto requestDto);
 
     @Operation(summary = "Удалить дом")
-    @DeleteMapping("/{id}")
-    ResponseEntity<String> deleteHouse(Long houseId);
+    @DeleteMapping("/city/api/houses/{id}")
+    ResponseEntity<String> deleteHouse(@PathVariable(name = "id") Long houseId);
 }

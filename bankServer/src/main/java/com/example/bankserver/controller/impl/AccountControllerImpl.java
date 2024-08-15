@@ -7,25 +7,24 @@ import com.example.bankserver.dto.GetAccountResponseDto;
 import com.example.bankserver.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("bank/api/accounts")
 @RequiredArgsConstructor
 public class AccountControllerImpl implements AccountController {
 
     private final PersonClient personClient;
     private final AccountService service;
 
-    @GetMapping("/{id}")
     public ResponseEntity<GetAccountResponseDto> getAccount(@PathVariable(name = "id") Long accountId) {
 
         return ResponseEntity.ok(service.getAccount(accountId));
     }
 
-    @PostMapping
     public ResponseEntity<GetAccountResponseDto> addAccount(@RequestBody AddAccountRequestDto dto) {
 
         ResponseEntity<String> response = personClient.getPerson(dto.getPersonId());

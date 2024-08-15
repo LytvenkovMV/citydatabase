@@ -8,22 +8,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "API для машин")
-@RequestMapping("/city/api/cars")
 public interface CarController {
 
     @Operation(summary = "Получить машину")
-    @GetMapping("/{id}")
-    ResponseEntity<GetCarResponseDto> getCar(Long carId);
+    @GetMapping("/city/api/cars/{id}")
+    ResponseEntity<GetCarResponseDto> getCar(@PathVariable(name = "id") Long carId);
 
     @Operation(summary = "Добавить машину")
-    @PostMapping
+    @PostMapping("/city/api/cars")
     ResponseEntity<GetCarResponseDto> addCar(@RequestBody AddCarRequestDto requestDto);
 
     @Operation(summary = "Обновить машину")
-    @PutMapping("/{id}")
-    ResponseEntity<GetCarResponseDto> updateCar(Long carId, AddCarRequestDto requestDto);
+    @PutMapping("/city/api/cars/{id}")
+    ResponseEntity<GetCarResponseDto> updateCar(@PathVariable(name = "id") Long carId,
+                                                @RequestBody AddCarRequestDto requestDto);
 
     @Operation(summary = "Удалить машину")
-    @DeleteMapping("/{id}")
-    ResponseEntity<String> deleteCar(Long carId);
+    @DeleteMapping("/city/api/cars/{id}")
+    ResponseEntity<String> deleteCar(@PathVariable(name = "id") Long carId);
 }

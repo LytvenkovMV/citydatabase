@@ -8,22 +8,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "API для жителей")
-@RequestMapping("/city/api/persons")
 public interface PersonController {
 
     @Operation(summary = "Получить жителя")
-    @GetMapping("/{id}")
-    ResponseEntity<GetPersonResponseDto> getPerson(Long personId);
+    @GetMapping("/city/api/persons/{id}")
+    ResponseEntity<GetPersonResponseDto> getPerson(@PathVariable(name = "id") Long personId);
 
     @Operation(summary = "Добавить жителя")
-    @PostMapping
-    ResponseEntity<GetPersonResponseDto> addPerson(AddPersonRequestDto requestDto);
+    @PostMapping("/city/api/persons")
+    ResponseEntity<GetPersonResponseDto> addPerson(@RequestBody AddPersonRequestDto requestDto);
 
     @Operation(summary = "Обновить жителя")
-    @PutMapping("/{id}")
-    ResponseEntity<GetPersonResponseDto> updatePerson(Long personId, AddPersonRequestDto requestDto);
+    @PutMapping("/city/api/persons/{id}")
+    ResponseEntity<GetPersonResponseDto> updatePerson(@PathVariable(name = "id") Long personId,
+                                                      @RequestBody AddPersonRequestDto requestDto);
 
     @Operation(summary = "Удалить жителя")
-    @DeleteMapping("/{id}")
-    ResponseEntity<String> deletePerson(Long personId);
+    @DeleteMapping("/city/api/persons/{id}")
+    ResponseEntity<String> deletePerson(@PathVariable(name = "id") Long personId);
 }
