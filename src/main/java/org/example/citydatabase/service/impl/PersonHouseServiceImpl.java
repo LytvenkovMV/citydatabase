@@ -8,11 +8,40 @@ import org.example.citydatabase.repository.PersonHouseRepository;
 import org.example.citydatabase.service.PersonHouseService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PersonHouseServiceImpl implements PersonHouseService {
 
     private final PersonHouseRepository repository;
+
+    @Override
+    public List<Person> updatePersonsInHouseWithId(House house, List<Person> personList) {
+
+        repository.deleteAllByHouseId(house.getId());
+
+        for (Person p : personList) {
+            PersonHouse personHouse = new PersonHouse();
+            personHouse.setPerson(p);
+            personHouse.setHouse(house);
+            repository.save(personHouse);
+        }
+
+        return repository.findAllByHouseId(house.getId()).stream()
+                .map(PersonHouse::getPerson)
+                .toList();
+    }
+
+    @Override
+    public List<PersonHouse> findAllByPersonId(Long personId) {
+        return repository.findAllByPersonId(personId);
+    }
+
+    @Override
+    public List<PersonHouse> findAllByHouseId(Long houseId) {
+        return repository.findAllByHouseId(houseId);
+    }
 
     @Override
     public void addPersonHouse(Person person, House house) {

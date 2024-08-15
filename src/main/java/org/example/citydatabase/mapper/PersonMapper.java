@@ -12,8 +12,8 @@ public interface PersonMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "passport", ignore = true)
-    @Mapping(target = "cars", ignore = true)
-    @Mapping(target = "houses", ignore = true)
+    @Mapping(target = "cars", expression = "java(new ArrayList<Car>())")
+    @Mapping(target = "houses", expression = "java(new ArrayList<House>())")
     Person personFromAddPersonRequestDto(AddPersonRequestDto dto);
 
     GetPersonResponseDto fromPerson(Person person);

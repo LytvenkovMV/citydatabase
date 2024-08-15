@@ -5,6 +5,7 @@ import org.example.citydatabase.dto.house.AddHouseRequestDto;
 import org.example.citydatabase.dto.house.GetHouseResponseDto;
 import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Person;
+import org.example.citydatabase.entity.PersonHouse;
 import org.example.citydatabase.mapper.HouseMapper;
 import org.example.citydatabase.repository.HouseRepository;
 import org.example.citydatabase.service.EntityProvider;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -51,7 +53,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Long addHouse(AddHouseRequestDto dto) {
+    public GetHouseResponseDto addHouse(AddHouseRequestDto dto) {
         House house = mapper.fromAddHouseRequestDto(dto);
         repository.save(house);
 
@@ -60,23 +62,40 @@ public class HouseServiceImpl implements HouseService {
             if (person != null) personHouseService.addPersonHouse(person, house);
         }
 
-        return house.getId();
+        house.setPersons(personHouseService.findAllByHouseId(house.getId()).stream()
+                .map(PersonHouse::getPerson)
+                .toList());
+
+        return mapper.fromHouse(house);
     }
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public void updateHouse(Long houseId, AddHouseRequestDto dto) {
+    public GetHouseResponseDto updateHouse(Long houseId, AddHouseRequestDto dto) {
         if (!repository.existsById(houseId)) throw new NoSuchElementException("House not found");
 
         House house = mapper.fromAddHouseRequestDto(dto);
         house.setId(houseId);
         repository.save(house);
 
-        personHouseService.deleteAllByHouseId(houseId);
+        List<Person> persons = new ArrayList<>();
+
         for (Long personId : dto.getPersonsId()) {
-            Person person = entityProvider.getPersonById(personId);
-            if (person != null) personHouseService.addPersonHouse(person, house);
+            personService.findById(personId).ifPresent(p -> persons.add(p));
         }
+
+
+//        personHouseService.deleteAllByHouseId(houseId);
+//        for (Long personId : dto.getPersonsId()) {
+//            Person person = entityProvider.getPersonById(personId);
+//            if (person != null) personHouseService.addPersonHouse(person, house);
+//        }
+//
+//        house.setPersons(personHouseService.findAllByHouseId(house.getId()).stream()
+//                .map(PersonHouse::getPerson)
+//                .toList());
+
+        return mapper.fromHouse(house);
     }
 
     @Override

@@ -31,7 +31,8 @@ public class Person {
     @JoinColumn(name = "passport_id")
     private Passport passport;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "person",
+            cascade = CascadeType.ALL)
     private List<Car> cars;
 
     @ManyToMany

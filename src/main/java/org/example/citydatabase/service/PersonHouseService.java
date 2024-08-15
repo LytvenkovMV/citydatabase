@@ -2,8 +2,17 @@ package org.example.citydatabase.service;
 
 import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Person;
+import org.example.citydatabase.entity.PersonHouse;
+
+import java.util.List;
 
 public interface PersonHouseService {
+
+    List<Person> updatePersonsInHouseWithId(House house, List<Person> personList);
+
+    List<PersonHouse> findAllByPersonId(Long personId);
+
+    List<PersonHouse> findAllByHouseId(Long houseId);
 
     void addPersonHouse(Person person, House house);
 

@@ -14,9 +14,9 @@ public interface HouseService {
 
     GetHouseResponseDto getHouseDto(Long houseId);
 
-    Long addHouse(AddHouseRequestDto dto);
+    GetHouseResponseDto addHouse(AddHouseRequestDto dto);
 
-    void updateHouse(Long houseId, AddHouseRequestDto dto);
+    GetHouseResponseDto updateHouse(Long houseId, AddHouseRequestDto dto);
 
     void deleteHouse(Long houseId);
 }

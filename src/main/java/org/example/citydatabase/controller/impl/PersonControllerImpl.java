@@ -18,24 +18,24 @@ public class PersonControllerImpl implements PersonController {
 
     @Override
     public ResponseEntity<GetPersonResponseDto> getPerson(@PathVariable(name = "id") Long personId) {
-        GetPersonResponseDto responseDto = service.getPersonDto(personId);
+        GetPersonResponseDto dto = service.getPersonDto(personId);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(dto);
     }
 
     @Override
     public ResponseEntity<GetPersonResponseDto> addPerson(@RequestBody AddPersonRequestDto requestDto) {
-        Long personId = service.addPerson(requestDto);
+        GetPersonResponseDto dto = service.addPerson(requestDto);
 
-        return ResponseEntity.ok(service.getPersonDto(personId));
+        return ResponseEntity.ok(dto);
     }
 
     @Override
     public ResponseEntity<GetPersonResponseDto> updatePerson(@PathVariable(name = "id") Long personId,
                                                              @RequestBody AddPersonRequestDto requestDto) {
-        service.updatePerson(personId, requestDto);
+        GetPersonResponseDto dto = service.updatePerson(personId, requestDto);
 
-        return ResponseEntity.ok(service.getPersonDto(personId));
+        return ResponseEntity.ok(dto);
     }
 
     @Override

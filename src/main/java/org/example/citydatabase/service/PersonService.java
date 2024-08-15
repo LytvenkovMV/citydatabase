@@ -14,9 +14,9 @@ public interface PersonService {
 
     GetPersonResponseDto getPersonDto(Long personId);
 
-    Long addPerson(AddPersonRequestDto dto);
+    GetPersonResponseDto addPerson(AddPersonRequestDto dto);
 
-    void updatePerson(Long personId, AddPersonRequestDto dto);
+    GetPersonResponseDto updatePerson(Long personId, AddPersonRequestDto dto);
 
     void deletePerson(Long personId);
 }

@@ -6,6 +6,7 @@ import org.example.citydatabase.dto.person.GetPersonResponseDto;
 import org.example.citydatabase.entity.House;
 import org.example.citydatabase.entity.Passport;
 import org.example.citydatabase.entity.Person;
+import org.example.citydatabase.entity.PersonHouse;
 import org.example.citydatabase.mapper.PersonMapper;
 import org.example.citydatabase.repository.PersonRepository;
 import org.example.citydatabase.service.EntityProvider;
@@ -53,7 +54,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Long addPerson(AddPersonRequestDto dto) {
+    public GetPersonResponseDto addPerson(AddPersonRequestDto dto) {
         Person person = mapper.personFromAddPersonRequestDto(dto);
         Passport passport = passportService.addPassport();
         person.setPassport(passport);
@@ -64,25 +65,35 @@ public class PersonServiceImpl implements PersonService {
             if (house != null) personHouseService.addPersonHouse(person, house);
         }
 
-        return person.getId();
+        person.setHouses(personHouseService.findAllByPersonId(person.getId()).stream()
+                .map(PersonHouse::getHouse)
+                .toList());
+
+        return mapper.fromPerson(person);
     }
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public void updatePerson(Long personId, AddPersonRequestDto dto) {
-        Optional<Person> existingPerson = repository.findById(personId);
-        if (existingPerson.isEmpty()) throw new NoSuchElementException("Person not found");
+    public GetPersonResponseDto updatePerson(Long personId, AddPersonRequestDto dto) {
+        Optional<Person> optPerson = repository.findById(personId);
+        if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
 
         Person person = mapper.personFromAddPersonRequestDto(dto);
         person.setId(personId);
-        person.setPassport(existingPerson.get().getPassport());
-        repository.save(person);
+        person.setPassport(optPerson.get().getPassport());
+        person = repository.save(person);
 
         personHouseService.deleteAllByPersonId(personId);
         for (Long houseId : dto.getHousesId()) {
             House house = entityProvider.getHouseById(houseId);
             if (house != null) personHouseService.addPersonHouse(person, house);
         }
+
+        person.setHouses(personHouseService.findAllByPersonId(personId).stream()
+                .map(PersonHouse::getHouse)
+                .toList());
+
+        return mapper.fromPerson(person);
     }
 
     @Override

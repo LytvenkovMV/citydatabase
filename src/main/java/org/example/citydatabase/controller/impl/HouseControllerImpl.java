@@ -18,24 +18,24 @@ public class HouseControllerImpl implements HouseController {
 
     @Override
     public ResponseEntity<GetHouseResponseDto> getHouse(@PathVariable(name = "id") Long houseId) {
-        GetHouseResponseDto responseDto = service.getHouseDto(houseId);
+        GetHouseResponseDto dto = service.getHouseDto(houseId);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(dto);
     }
 
     @Override
     public ResponseEntity<GetHouseResponseDto> addHouse(@RequestBody AddHouseRequestDto requestDto) {
-        Long houseId = service.addHouse(requestDto);
+        GetHouseResponseDto dto = service.addHouse(requestDto);
 
-        return ResponseEntity.ok(service.getHouseDto(houseId));
+        return ResponseEntity.ok(dto);
     }
 
     @Override
     public ResponseEntity<GetHouseResponseDto> updateHouse(@PathVariable(name = "id") Long houseId,
                                                            @RequestBody AddHouseRequestDto requestDto) {
-        service.updateHouse(houseId, requestDto);
+        GetHouseResponseDto dto = service.updateHouse(houseId, requestDto);
 
-        return ResponseEntity.ok(service.getHouseDto(houseId));
+        return ResponseEntity.ok(dto);
     }
 
     @Override
