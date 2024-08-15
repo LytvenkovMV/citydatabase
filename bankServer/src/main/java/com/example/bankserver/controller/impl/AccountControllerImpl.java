@@ -27,10 +27,9 @@ public class AccountControllerImpl implements AccountController {
 
     public ResponseEntity<GetAccountResponseDto> addAccount(@RequestBody AddAccountRequestDto dto) {
 
-        ResponseEntity<String> response = personClient.getPerson(dto.getPersonId());
-        if (!response.getStatusCode().is2xxSuccessful()) throw new NoSuchElementException("Person not found");
+        ResponseEntity<String> clientResponse = personClient.getPerson(dto.getPersonId());
+        if (!clientResponse.getStatusCode().is2xxSuccessful()) throw new NoSuchElementException("Person not found");
 
-        Long accountId = service.addAccount(dto);
-        return ResponseEntity.ok(service.getAccount(accountId));
+        return ResponseEntity.ok(service.addAccount(dto));
     }
 }

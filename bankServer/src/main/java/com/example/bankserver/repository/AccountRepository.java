@@ -11,21 +11,25 @@ import org.springframework.stereotype.Repository;
 public class AccountRepository {
 
     private final DSLContext dsl;
+    private final Accounts accounts = Accounts.ACCOUNTS;
 
     public Account insert(Account account) {
 
-        return null;
-
+        return dsl
+                .insertInto(accounts)
+                .set(dsl.newRecord(accounts, account))
+                .returning()
+                .fetchOne()
+                .into(Account.class);
     }
 
     public Account find(Long id) {
-        Accounts accounts = Accounts.ACCOUNTS;
 
-        Account acc = (Account) dsl
+        return dsl
                 .select(accounts.ID, accounts.PERSON_ID, accounts.BALANCE)
                 .from(accounts)
-                .fetch();
-
-        return acc;
+                .where(accounts.ID.eq(id.intValue()))
+                .fetchAny()
+                .into(Account.class);
     }
 }

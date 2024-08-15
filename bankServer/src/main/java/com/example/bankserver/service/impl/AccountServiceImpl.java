@@ -15,15 +15,20 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository repository;
 
     @Override
-    public Long addAccount(AddAccountRequestDto dto) {
+    public GetAccountResponseDto addAccount(AddAccountRequestDto dto) {
 
         Account a = new Account();
         a.setPersonId(dto.getPersonId());
         a.setBalance(dto.getBalance());
 
-        repository.insert(a);
+        a = repository.insert(a);
 
-        return a.getId();
+        GetAccountResponseDto responseDto = new GetAccountResponseDto();
+        responseDto.setId(a.getId());
+        responseDto.setPersonId(a.getPersonId());
+        responseDto.setBalance(a.getBalance());
+
+        return responseDto;
     }
 
     @Override
