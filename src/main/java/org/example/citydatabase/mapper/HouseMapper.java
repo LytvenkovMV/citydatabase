@@ -25,6 +25,8 @@ public interface HouseMapper {
 
         return house.getPersons().stream()
                 .map(Person::getId)
+                .distinct()
+                .sorted()
                 .toList();
     }
 }

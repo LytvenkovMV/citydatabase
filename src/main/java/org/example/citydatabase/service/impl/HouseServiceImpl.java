@@ -57,14 +57,11 @@ public class HouseServiceImpl implements HouseService {
         House house = mapper.fromAddHouseRequestDto(dto);
         repository.save(house);
 
-        for (Long personId : dto.getPersonsId()) {
-            Person person = entityProvider.getPersonById(personId);
-            if (person != null) personHouseService.addPersonHouse(person, house);
-        }
-
-        house.setPersons(personHouseService.findAllByHouseId(house.getId()).stream()
-                .map(PersonHouse::getPerson)
-                .toList());
+        List<Person> persons = dto.getPersonsId().stream()
+                .distinct()
+                .map(entityProvider::getPersonById)
+                .toList();
+        house.setPersons(personHouseService.updatePersonsInHouseWithId(house, persons));
 
         return mapper.fromHouse(house);
     }
@@ -78,22 +75,11 @@ public class HouseServiceImpl implements HouseService {
         house.setId(houseId);
         repository.save(house);
 
-        List<Person> persons = new ArrayList<>();
-
-        for (Long personId : dto.getPersonsId()) {
-            personService.findById(personId).ifPresent(p -> persons.add(p));
-        }
-
-
-//        personHouseService.deleteAllByHouseId(houseId);
-//        for (Long personId : dto.getPersonsId()) {
-//            Person person = entityProvider.getPersonById(personId);
-//            if (person != null) personHouseService.addPersonHouse(person, house);
-//        }
-//
-//        house.setPersons(personHouseService.findAllByHouseId(house.getId()).stream()
-//                .map(PersonHouse::getPerson)
-//                .toList());
+        List<Person> persons = dto.getPersonsId().stream()
+                .distinct()
+                .map(entityProvider::getPersonById)
+                .toList();
+        house.setPersons(personHouseService.updatePersonsInHouseWithId(house, persons));
 
         return mapper.fromHouse(house);
     }

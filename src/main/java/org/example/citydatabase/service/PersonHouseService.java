@@ -8,13 +8,9 @@ import java.util.List;
 
 public interface PersonHouseService {
 
-    List<Person> updatePersonsInHouseWithId(House house, List<Person> personList);
+    List<Person> updatePersonsInHouseWithId(House house, List<Person> persons);
 
-    List<PersonHouse> findAllByPersonId(Long personId);
-
-    List<PersonHouse> findAllByHouseId(Long houseId);
-
-    void addPersonHouse(Person person, House house);
+    List<House> updateHousesInPerson(Person person, List<House> houses);
 
     void deleteAllByPersonId(Long personId);
 

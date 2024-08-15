@@ -17,11 +17,10 @@ public class PersonHouseServiceImpl implements PersonHouseService {
     private final PersonHouseRepository repository;
 
     @Override
-    public List<Person> updatePersonsInHouseWithId(House house, List<Person> personList) {
-
+    public List<Person> updatePersonsInHouseWithId(House house, List<Person> persons) {
         repository.deleteAllByHouseId(house.getId());
 
-        for (Person p : personList) {
+        for (Person p : persons) {
             PersonHouse personHouse = new PersonHouse();
             personHouse.setPerson(p);
             personHouse.setHouse(house);
@@ -30,25 +29,27 @@ public class PersonHouseServiceImpl implements PersonHouseService {
 
         return repository.findAllByHouseId(house.getId()).stream()
                 .map(PersonHouse::getPerson)
+                .distinct()
+                .sorted((o1, o2) -> (int) (o1.getId() - o2.getId()))
                 .toList();
     }
 
     @Override
-    public List<PersonHouse> findAllByPersonId(Long personId) {
-        return repository.findAllByPersonId(personId);
-    }
+    public List<House> updateHousesInPerson(Person person, List<House> houses) {
+        repository.deleteAllByPersonId(person.getId());
 
-    @Override
-    public List<PersonHouse> findAllByHouseId(Long houseId) {
-        return repository.findAllByHouseId(houseId);
-    }
+        for (House h : houses) {
+            PersonHouse personHouse = new PersonHouse();
+            personHouse.setPerson(person);
+            personHouse.setHouse(h);
+            repository.save(personHouse);
+        }
 
-    @Override
-    public void addPersonHouse(Person person, House house) {
-        PersonHouse personHouse = new PersonHouse();
-        personHouse.setPerson(person);
-        personHouse.setHouse(house);
-        repository.save(personHouse);
+        return repository.findAllByPersonId(person.getId()).stream()
+                .map(PersonHouse::getHouse)
+                .distinct()
+                .sorted((o1, o2) -> (int) (o1.getId() - o2.getId()))
+                .toList();
     }
 
     @Override

@@ -60,14 +60,11 @@ public class PersonServiceImpl implements PersonService {
         person.setPassport(passport);
         person = repository.save(person);
 
-        for (Long houseId : dto.getHousesId()) {
-            House house = entityProvider.getHouseById(houseId);
-            if (house != null) personHouseService.addPersonHouse(person, house);
-        }
-
-        person.setHouses(personHouseService.findAllByPersonId(person.getId()).stream()
-                .map(PersonHouse::getHouse)
-                .toList());
+        List<House> houses = dto.getHousesId().stream()
+                .distinct()
+                .map(entityProvider::getHouseById)
+                .toList();
+        person.setHouses(personHouseService.updateHousesInPerson(person, houses));
 
         return mapper.fromPerson(person);
     }
@@ -83,15 +80,11 @@ public class PersonServiceImpl implements PersonService {
         person.setPassport(optPerson.get().getPassport());
         person = repository.save(person);
 
-        personHouseService.deleteAllByPersonId(personId);
-        for (Long houseId : dto.getHousesId()) {
-            House house = entityProvider.getHouseById(houseId);
-            if (house != null) personHouseService.addPersonHouse(person, house);
-        }
-
-        person.setHouses(personHouseService.findAllByPersonId(personId).stream()
-                .map(PersonHouse::getHouse)
-                .toList());
+        List<House> houses = dto.getHousesId().stream()
+                .distinct()
+                .map(entityProvider::getHouseById)
+                .toList();
+        person.setHouses(personHouseService.updateHousesInPerson(person, houses));
 
         return mapper.fromPerson(person);
     }
