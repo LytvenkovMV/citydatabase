@@ -1,0 +1,101 @@
+package com.example.cityserver.service.impl;
+
+import lombok.RequiredArgsConstructor;
+import com.example.cityserver.dto.person.AddPersonRequestDto;
+import com.example.cityserver.dto.person.GetPersonResponseDto;
+import com.example.cityserver.entity.House;
+import com.example.cityserver.entity.Passport;
+import com.example.cityserver.entity.Person;
+import com.example.cityserver.mapper.PersonMapper;
+import com.example.cityserver.repository.PersonRepository;
+import com.example.cityserver.service.EntityProvider;
+import com.example.cityserver.service.PassportService;
+import com.example.cityserver.service.PersonHouseService;
+import com.example.cityserver.service.PersonService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class PersonServiceImpl implements PersonService {
+
+    private final EntityProvider entityProvider;
+    private final PersonHouseService personHouseService;
+    private final PassportService passportService;
+
+    private final PersonRepository repository;
+    private final PersonMapper mapper;
+
+    @Override
+    public Person getPerson(Long personId) {
+        Optional<Person> optPerson = repository.findById(personId);
+        if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
+
+        return optPerson.get();
+    }
+
+    @Override
+    public List<Person> getPersonsBy(Character surnameStartChar) {
+        return repository.findAllBySurnameStartingWith(surnameStartChar);
+    }
+
+    @Override
+    public GetPersonResponseDto getPersonDto(Long personId) {
+        Person person = getPerson(personId);
+
+        return mapper.fromPerson(person);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public GetPersonResponseDto addPerson(AddPersonRequestDto dto) {
+        Person person = mapper.personFromAddPersonRequestDto(dto);
+        Passport passport = passportService.addPassport();
+        person.setPassport(passport);
+        person = repository.save(person);
+
+        List<House> houses = dto.getHousesId().stream()
+                .distinct()
+                .map(entityProvider::getHouseById)
+                .toList();
+        person.setHouses(personHouseService.updateHousesInPerson(person, houses));
+
+        return mapper.fromPerson(person);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public GetPersonResponseDto updatePerson(Long personId, AddPersonRequestDto dto) {
+        Optional<Person> optPerson = repository.findById(personId);
+        if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
+
+        Person person = mapper.personFromAddPersonRequestDto(dto);
+        person.setId(personId);
+        person.setPassport(optPerson.get().getPassport());
+        person = repository.save(person);
+
+        List<House> houses = dto.getHousesId().stream()
+                .distinct()
+                .map(entityProvider::getHouseById)
+                .toList();
+        person.setHouses(personHouseService.updateHousesInPerson(person, houses));
+
+        return mapper.fromPerson(person);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.DEFAULT)
+    public void deletePerson(Long personId) {
+        Optional<Person> optPerson = repository.findById(personId);
+        if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
+
+        Person person = optPerson.get();
+        personHouseService.deleteAllByPersonId(personId);
+        repository.delete(person);
+    }
+}
