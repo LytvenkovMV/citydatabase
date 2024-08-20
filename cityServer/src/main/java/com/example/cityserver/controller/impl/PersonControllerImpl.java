@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class PersonControllerImpl implements PersonController {
@@ -28,6 +30,13 @@ public class PersonControllerImpl implements PersonController {
         GetPersonResponseDto dto = service.addPerson(requestDto);
 
         return ResponseEntity.ok(dto);
+    }
+
+    @Override
+    public ResponseEntity<List<GetPersonResponseDto>> addPersonList(List<AddPersonRequestDto> requestDtoList) {
+        List<GetPersonResponseDto> dtoList = service.addPersonList(requestDtoList);
+
+        return ResponseEntity.ok(dtoList);
     }
 
     @Override

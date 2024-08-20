@@ -1,15 +1,17 @@
 package com.example.cityserver.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import com.example.cityserver.dto.passport.GetPassportResponseDto;
 import com.example.cityserver.entity.Passport;
 import com.example.cityserver.mapper.PassportMapper;
 import com.example.cityserver.repository.PassportRepository;
 import com.example.cityserver.service.PassportService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -21,10 +23,10 @@ public class PassportServiceImpl implements PassportService {
     private final PassportMapper mapper;
 
     @Value("${cityserver.passportservice.office-code}")
-    private String officeCode;
+    private static String officeCode;
 
     @Value("${cityserver.passportservice.pasport-series}")
-    private Integer series;
+    private static Integer series;
 
     @Override
     public GetPassportResponseDto getPassportDto(Long passportId) {
@@ -36,19 +38,72 @@ public class PassportServiceImpl implements PassportService {
 
     @Override
     public Passport addPassport() {
-        Passport passport = new Passport();
-        passport.setSeries(series);
-        passport.setNumber(850071L);
-        passport.setOfficeCode(officeCode);
-        passport.setIssueDate(LocalDate.now());
 
-        repository.save(passport);
+        return repository.save(this.generateNew());
+    }
 
-        return passport;
+    @Override
+    public List<Passport> addPassportList(int size) {
+
+        List<Passport> passports = new ArrayList<>(size);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        for (int i = 0; i < size; i++) {
+            passports.add(this.generateNew());
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        return (List<Passport>) repository.saveAll(passports);
     }
 
     @Override
     public void deletePassport(Long passportId) {
         repository.deleteById(passportId);
+    }
+
+    private Passport generateNew() {
+
+
+
+
+
+        
+        Long lastNumber = repository.findPassportByNumberAsc().or(new Long("1"));
+
+
+
+
+
+
+
+
+        Passport passport = new Passport();
+        passport.setSeries(series);
+        passport.setNumber(lastNumber + 1);
+        passport.setOfficeCode(officeCode);
+        passport.setIssueDate(LocalDate.now());
+        return passport;
     }
 }

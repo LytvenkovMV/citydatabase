@@ -16,7 +16,11 @@ public interface PersonService {
 
     GetPersonResponseDto addPerson(AddPersonRequestDto dto);
 
+    List<GetPersonResponseDto> addPersonList(List<AddPersonRequestDto> requestDtoList);
+
     GetPersonResponseDto updatePerson(Long personId, AddPersonRequestDto dto);
 
     void deletePerson(Long personId);
+
+
 }

@@ -1,6 +1,5 @@
 package com.example.cityserver.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import com.example.cityserver.dto.person.AddPersonRequestDto;
 import com.example.cityserver.dto.person.GetPersonResponseDto;
 import com.example.cityserver.entity.House;
@@ -12,10 +11,12 @@ import com.example.cityserver.service.EntityProvider;
 import com.example.cityserver.service.PassportService;
 import com.example.cityserver.service.PersonHouseService;
 import com.example.cityserver.service.PersonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -66,6 +67,34 @@ public class PersonServiceImpl implements PersonService {
         person.setHouses(personHouseService.updateHousesInPerson(person, houses));
 
         return mapper.fromPerson(person);
+    }
+
+    @Override
+    public List<GetPersonResponseDto> addPersonList(List<AddPersonRequestDto> requestDtoList) {
+
+        List<Passport> passports = passportService.addPassportList(requestDtoList.size());
+        Iterator<Passport> passportIterator = passports.iterator();
+
+        List<Person> persons = requestDtoList.stream()
+                .map(dto -> {
+                    Person person = mapper.personFromAddPersonRequestDto(dto);
+                    person.setPassport(passportIterator.next());
+                    return person;
+                })
+                .toList();
+        persons = (List<Person>) repository.saveAll(persons);
+
+
+
+
+
+
+
+
+
+        return persons.stream()
+                .map(mapper::fromPerson)
+                .toList();
     }
 
     @Override

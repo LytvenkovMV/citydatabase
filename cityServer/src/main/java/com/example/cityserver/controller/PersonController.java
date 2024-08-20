@@ -7,6 +7,8 @@ import com.example.cityserver.dto.person.GetPersonResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "API для жителей")
 public interface PersonController {
 
@@ -17,6 +19,10 @@ public interface PersonController {
     @Operation(summary = "Добавить жителя")
     @PostMapping("/city/api/persons")
     ResponseEntity<GetPersonResponseDto> addPerson(@RequestBody AddPersonRequestDto requestDto);
+
+    @Operation(summary = "Добавить список жителей")
+    @PostMapping("city/api/persons/list")
+    ResponseEntity<List<GetPersonResponseDto>> addPersonList(@RequestBody List<AddPersonRequestDto> dtoList);
 
     @Operation(summary = "Обновить жителя")
     @PutMapping("/city/api/persons/{id}")
