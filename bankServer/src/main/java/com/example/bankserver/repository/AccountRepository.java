@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class AccountRepository {
@@ -21,6 +23,11 @@ public class AccountRepository {
                 .returning()
                 .fetchOne()
                 .into(Account.class);
+    }
+
+    public void insertAll(List<Account> accounts) {
+
+        for (Account a : accounts) this.insert(a);
     }
 
     public Account find(Long id) {
