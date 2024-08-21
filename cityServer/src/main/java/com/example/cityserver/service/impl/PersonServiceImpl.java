@@ -70,6 +70,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public List<GetPersonResponseDto> addPersonList(List<AddPersonRequestDto> requestDtoList) {
 
         List<Passport> passports = passportService.addPassportList(requestDtoList.size());
@@ -84,13 +85,13 @@ public class PersonServiceImpl implements PersonService {
                 .toList();
         persons = (List<Person>) repository.saveAll(persons);
 
-
-
-
-
-
-
-
+        for (int i = 0; i < requestDtoList.size(); i++) {
+            List<House> houses = requestDtoList.get(i).getHousesId().stream()
+                    .distinct()
+                    .map(entityProvider::getHouseById)
+                    .toList();
+            persons.get(i).setHouses(personHouseService.updateHousesInPerson(persons.get(i), houses));
+        }
 
         return persons.stream()
                 .map(mapper::fromPerson)

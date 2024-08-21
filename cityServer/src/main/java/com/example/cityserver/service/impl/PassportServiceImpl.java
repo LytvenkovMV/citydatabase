@@ -23,10 +23,10 @@ public class PassportServiceImpl implements PassportService {
     private final PassportMapper mapper;
 
     @Value("${cityserver.passportservice.office-code}")
-    private static String officeCode;
+    private String officeCode;
 
     @Value("${cityserver.passportservice.pasport-series}")
-    private static Integer series;
+    private Integer series;
 
     @Override
     public GetPassportResponseDto getPassportDto(Long passportId) {
@@ -38,42 +38,20 @@ public class PassportServiceImpl implements PassportService {
 
     @Override
     public Passport addPassport() {
+        Long maxNumber = repository.findMaxNumber().orElse(1L);
 
-        return repository.save(this.generateNew());
+        return repository.save(this.generateNew(maxNumber));
     }
 
     @Override
     public List<Passport> addPassportList(int size) {
+        Long maxNumber = repository.findMaxNumber().orElse(1L);
 
         List<Passport> passports = new ArrayList<>(size);
-
-
-
-
-
-
-
-
-
-
-
-
-
         for (int i = 0; i < size; i++) {
-            passports.add(this.generateNew());
+            maxNumber++;
+            passports.add(this.generateNew(maxNumber));
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
         return (List<Passport>) repository.saveAll(passports);
     }
@@ -83,25 +61,10 @@ public class PassportServiceImpl implements PassportService {
         repository.deleteById(passportId);
     }
 
-    private Passport generateNew() {
-
-
-
-
-
-        
-        Long lastNumber = repository.findPassportByNumberAsc().or(new Long("1"));
-
-
-
-
-
-
-
-
+    private Passport generateNew(Long number) {
         Passport passport = new Passport();
         passport.setSeries(series);
-        passport.setNumber(lastNumber + 1);
+        passport.setNumber(number);
         passport.setOfficeCode(officeCode);
         passport.setIssueDate(LocalDate.now());
         return passport;

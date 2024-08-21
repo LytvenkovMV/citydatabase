@@ -11,11 +11,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonsMessagingServiceImpl implements PersonsMessagingService {
 
-//    private final KafkaTemplate<String, List<Long>> kafkaTemplate;
-//
-//    @Override
-//    public void sendPersons(List<Long> personIds) {
-//
-//        kafkaTemplate.send("newpersons", personIds);
-//    }
+    private final KafkaTemplate<String, List<Long>> kafkaTemplate;
+
+    @Override
+    public void sendPersons(List<Long> personIds) {
+
+        kafkaTemplate.send("newpersons", personIds);
+    }
 }
