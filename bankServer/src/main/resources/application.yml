@@ -20,7 +20,9 @@ spring:
       format_sql: true
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: group_1
 
 logging.level.org.hibernate:
   SQL: DEBUG

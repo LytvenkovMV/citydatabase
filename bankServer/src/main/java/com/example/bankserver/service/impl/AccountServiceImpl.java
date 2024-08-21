@@ -34,18 +34,22 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addAccountList(List<Long> personIds) {
+    public void addAccountList(List<Integer> personIds) {
 
-        List<Account> accounts = personIds.stream()
-                .map(id -> {
-                    Account a = new Account();
-                    a.setPersonId(id);
-                    a.setBalance(0);
-                    return a;
-                })
-                .toList();
+        try {
+            List<Account> accounts = personIds.stream()
+                    .map(id -> {
+                        Account a = new Account();
+                        a.setPersonId(Integer.toUnsignedLong(id));
+                        a.setBalance(500);
+                        return a;
+                    })
+                    .toList();
 
-        repository.insertAll(accounts);
+            repository.insertAll(accounts);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
