@@ -38,14 +38,14 @@ public class PassportServiceImpl implements PassportService {
 
     @Override
     public Passport addPassport() {
-        Long maxNumber = repository.findMaxNumber().orElse(1L);
+        Long maxNumber = repository.findMaxNumber().orElse(0L);
 
         return repository.save(this.generateNew(maxNumber));
     }
 
     @Override
     public List<Passport> addPassportList(int size) {
-        Long maxNumber = repository.findMaxNumber().orElse(1L);
+        Long maxNumber = repository.findMaxNumber().orElse(0L);
 
         List<Passport> passports = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {

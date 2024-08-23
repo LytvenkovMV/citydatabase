@@ -1,11 +1,11 @@
 package com.example.cityserver.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import com.example.cityserver.entity.House;
 import com.example.cityserver.entity.Person;
 import com.example.cityserver.entity.PersonHouse;
 import com.example.cityserver.repository.PersonHouseRepository;
 import com.example.cityserver.service.PersonHouseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +20,14 @@ public class PersonHouseServiceImpl implements PersonHouseService {
     public List<Person> updatePersonsInHouseWithId(House house, List<Person> persons) {
         repository.deleteAllByHouseId(house.getId());
 
-        for (Person p : persons) {
-            PersonHouse personHouse = new PersonHouse();
-            personHouse.setPerson(p);
-            personHouse.setHouse(house);
-            repository.save(personHouse);
-        }
+        List<PersonHouse> personHouses = persons.stream()
+                .map(p -> {
+                    PersonHouse ph = new PersonHouse();
+                    ph.setPerson(p);
+                    ph.setHouse(house);
+                    return ph;
+                }).toList();
+        repository.saveAll(personHouses);
 
         return repository.findAllByHouseId(house.getId()).stream()
                 .map(PersonHouse::getPerson)
@@ -38,12 +40,14 @@ public class PersonHouseServiceImpl implements PersonHouseService {
     public List<House> updateHousesInPerson(Person person, List<House> houses) {
         repository.deleteAllByPersonId(person.getId());
 
-        for (House h : houses) {
-            PersonHouse personHouse = new PersonHouse();
-            personHouse.setPerson(person);
-            personHouse.setHouse(h);
-            repository.save(personHouse);
-        }
+        List<PersonHouse> personHouses = houses.stream()
+                .map(h -> {
+                    PersonHouse ph = new PersonHouse();
+                    ph.setPerson(person);
+                    ph.setHouse(h);
+                    return ph;
+                }).toList();
+        repository.saveAll(personHouses);
 
         return repository.findAllByPersonId(person.getId()).stream()
                 .map(PersonHouse::getHouse)

@@ -1,15 +1,17 @@
 package com.example.cityserver.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import com.example.cityserver.dto.house.AddHouseRequestDto;
 import com.example.cityserver.dto.house.GetHouseResponseDto;
 import com.example.cityserver.entity.House;
 import com.example.cityserver.entity.Person;
 import com.example.cityserver.mapper.HouseMapper;
 import com.example.cityserver.repository.HouseRepository;
-import com.example.cityserver.service.EntityProvider;
 import com.example.cityserver.service.HouseService;
 import com.example.cityserver.service.PersonHouseService;
+import com.example.cityserver.service.PersonService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +24,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class HouseServiceImpl implements HouseService {
 
-    private final EntityProvider entityProvider;
+    @Autowired
+    @Lazy
+    private PersonService personService;
+
     private final PersonHouseService personHouseService;
 
     private final HouseRepository repository;
@@ -57,7 +62,7 @@ public class HouseServiceImpl implements HouseService {
 
         List<Person> persons = dto.getPersonsId().stream()
                 .distinct()
-                .map(entityProvider::getPersonById)
+                .map(personService::getPerson)
                 .toList();
         house.setPersons(personHouseService.updatePersonsInHouseWithId(house, persons));
 
@@ -75,7 +80,7 @@ public class HouseServiceImpl implements HouseService {
 
         List<Person> persons = dto.getPersonsId().stream()
                 .distinct()
-                .map(entityProvider::getPersonById)
+                .map(personService::getPerson)
                 .toList();
         house.setPersons(personHouseService.updatePersonsInHouseWithId(house, persons));
 

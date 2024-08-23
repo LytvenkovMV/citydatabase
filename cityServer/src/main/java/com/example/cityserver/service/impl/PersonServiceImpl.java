@@ -7,7 +7,7 @@ import com.example.cityserver.entity.Passport;
 import com.example.cityserver.entity.Person;
 import com.example.cityserver.mapper.PersonMapper;
 import com.example.cityserver.repository.PersonRepository;
-import com.example.cityserver.service.EntityProvider;
+import com.example.cityserver.service.HouseService;
 import com.example.cityserver.service.PassportService;
 import com.example.cityserver.service.PersonHouseService;
 import com.example.cityserver.service.PersonService;
@@ -25,7 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
 
-    private final EntityProvider entityProvider;
+    private final HouseService houseService;
     private final PersonHouseService personHouseService;
     private final PassportService passportService;
 
@@ -62,7 +62,7 @@ public class PersonServiceImpl implements PersonService {
 
         List<House> houses = dto.getHousesId().stream()
                 .distinct()
-                .map(entityProvider::getHouseById)
+                .map(houseService::getHouse)
                 .toList();
         person.setHouses(personHouseService.updateHousesInPerson(person, houses));
 
@@ -88,7 +88,7 @@ public class PersonServiceImpl implements PersonService {
         for (int i = 0; i < requestDtoList.size(); i++) {
             List<House> houses = requestDtoList.get(i).getHousesId().stream()
                     .distinct()
-                    .map(entityProvider::getHouseById)
+                    .map(houseService::getHouse)
                     .toList();
             persons.get(i).setHouses(personHouseService.updateHousesInPerson(persons.get(i), houses));
         }
@@ -111,7 +111,7 @@ public class PersonServiceImpl implements PersonService {
 
         List<House> houses = dto.getHousesId().stream()
                 .distinct()
-                .map(entityProvider::getHouseById)
+                .map(houseService::getHouse)
                 .toList();
         person.setHouses(personHouseService.updateHousesInPerson(person, houses));
 
