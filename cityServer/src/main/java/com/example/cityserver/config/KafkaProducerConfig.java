@@ -20,8 +20,7 @@ public class KafkaProducerConfig {
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
 
-    @Bean
-    public ProducerFactory<String, List<Long>> producerFactory() {
+    public ProducerFactory<String, Long[]> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
 
         configProps.put(
@@ -38,7 +37,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, List<Long>> kafkaTemplate() {
+    public KafkaTemplate<String, Long[]> kafkaTemplate() {
 
         return new KafkaTemplate<>(producerFactory());
     }

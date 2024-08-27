@@ -9,7 +9,7 @@ public interface AccountService {
 
     GetAccountResponseDto addAccount(AddAccountRequestDto dto);
 
-    void addAccountList(List<Integer> personIds);
+    void addAccountList(Long[] personIds);
 
     GetAccountResponseDto getAccount(Long id);
 }

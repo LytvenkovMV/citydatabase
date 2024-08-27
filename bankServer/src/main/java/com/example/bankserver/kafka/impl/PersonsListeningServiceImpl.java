@@ -16,7 +16,7 @@ public class PersonsListeningServiceImpl implements PersonsListeningService {
 
     @Override
     @KafkaListener(topics = "newpersons", containerFactory = "PersonListenerConsumerContainer")
-    public void listen(List<Integer> personIds) {
+    public void listen(Long[] personIds) {
 
         accountService.addAccountList(personIds);
     }

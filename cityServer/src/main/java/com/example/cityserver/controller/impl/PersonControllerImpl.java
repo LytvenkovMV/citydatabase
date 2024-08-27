@@ -38,9 +38,11 @@ public class PersonControllerImpl implements PersonController {
     public ResponseEntity<List<GetPersonResponseDto>> addPersonList(List<AddPersonRequestDto> requestDtoList) {
         List<GetPersonResponseDto> dtoList = personService.addPersonList(requestDtoList);
 
-        messagingService.sendPersons(dtoList.stream()
-                .map(GetPersonResponseDto::getId)
-                .toList());
+        Long[] personIds = new Long[dtoList.size()];
+        for (int i = 0; i < dtoList.size(); i++) {
+            personIds[i] = dtoList.get(i).getId();
+        }
+        messagingService.sendPersons(personIds);
 
         return ResponseEntity.ok(dtoList);
     }

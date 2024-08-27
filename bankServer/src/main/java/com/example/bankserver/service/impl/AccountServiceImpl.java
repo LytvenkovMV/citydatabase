@@ -8,6 +8,7 @@ import com.example.bankserver.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -34,13 +35,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addAccountList(List<Integer> personIds) {
+    public void addAccountList(Long[] personIds) {
 
         try {
-            List<Account> accounts = personIds.stream()
+            List<Account> accounts = Arrays.stream(personIds)
                     .map(id -> {
                         Account a = new Account();
-                        a.setPersonId(Integer.toUnsignedLong(id));
+                        a.setPersonId(id);
                         a.setBalance(500);
                         return a;
                     })

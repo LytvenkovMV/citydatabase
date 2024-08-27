@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface PersonsListeningService {
 
-    void listen(List<Integer> personIds);
+    void listen(Long[] personIds);
 }
