@@ -25,7 +25,7 @@ public class KafkaConsumerConfig {
     @Value(value = "${spring.kafka.consumer.group-id}")
     private String groupId;
 
-    public ConsumerFactory<String, List<Integer>> consumerFactory() {
+    public ConsumerFactory<String, Long[]> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
 
         props.put(
@@ -45,9 +45,9 @@ public class KafkaConsumerConfig {
     }
 
     @Bean(name = "PersonListenerConsumerContainer")
-    public ConcurrentKafkaListenerContainerFactory<String, List<Integer>>
+    public ConcurrentKafkaListenerContainerFactory<String, Long[]>
     kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, List<Integer>> factory =
+        ConcurrentKafkaListenerContainerFactory<String, Long[]> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
 
