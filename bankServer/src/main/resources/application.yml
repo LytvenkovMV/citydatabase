@@ -24,10 +24,8 @@ spring:
     consumer:
       group-id: group_1
 
-logging.level.org.hibernate:
-  SQL: DEBUG
-  type.descriptor.sql:
-  BasicBinder: TRACE
+logging.level.org.jooq.tools:
+          LoggerListener: DEBUG
 
 server:
   port: 8081
