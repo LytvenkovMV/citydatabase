@@ -7,6 +7,7 @@ import com.example.bankserver.kafka.PersonsMessagingService;
 import com.example.bankserver.repository.AccountRepository;
 import com.example.bankserver.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AccountServiceImpl implements AccountService {
 
     private final PersonsMessagingService messagingService;
@@ -38,20 +40,24 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void addAccountList(Long[] personIds) {
-
+        List<Account> accounts = Arrays.stream(personIds)
+                .map(id -> {
+                    Account a = new Account();
+                    a.setPersonId(id);
+                    a.setBalance(500);
+                    return a;
+                })
+                .toList();
         try {
-            List<Account> accounts = Arrays.stream(personIds)
-                    .map(id -> {
-                        Account a = new Account();
-                        a.setPersonId(id);
-                        a.setBalance(500);
-                        return a;
-                    })
-                    .toList();
-
             repository.insertAll(accounts);
         } catch (Exception e) {
+            repository.deleteAll(accounts.stream()
+                    .map(Account::getPersonId)
+                    .toList());
+
             messagingService.sendPersons(personIds);
+            log.warn("Unable to create accounts. Rollback request!");
+
             throw new RuntimeException(e);
         }
     }

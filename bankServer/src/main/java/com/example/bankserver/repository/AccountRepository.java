@@ -39,4 +39,17 @@ public class AccountRepository {
                 .fetchAny()
                 .into(Account.class);
     }
+
+    public void delete(Long personId) {
+
+        dsl
+                .delete(accounts)
+                .where(accounts.PERSON_ID.eq(personId.intValue()))
+                .execute();
+    }
+
+    public void deleteAll(List<Long> personIds) {
+
+        for (Long id : personIds) this.delete(id);
+    }
 }
