@@ -3,6 +3,7 @@ package com.example.bankserver.service.impl;
 import com.example.bankserver.dto.AddAccountRequestDto;
 import com.example.bankserver.dto.GetAccountResponseDto;
 import com.example.bankserver.entity.Account;
+import com.example.bankserver.kafka.PersonsMessagingService;
 import com.example.bankserver.repository.AccountRepository;
 import com.example.bankserver.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
+    private final PersonsMessagingService messagingService;
     private final AccountRepository repository;
 
     @Override
@@ -49,6 +51,7 @@ public class AccountServiceImpl implements AccountService {
 
             repository.insertAll(accounts);
         } catch (Exception e) {
+            messagingService.sendPersons(personIds);
             throw new RuntimeException(e);
         }
     }
