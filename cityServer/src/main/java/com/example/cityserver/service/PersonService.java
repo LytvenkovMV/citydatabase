@@ -22,5 +22,5 @@ public interface PersonService {
 
     void deletePerson(Long personId);
 
-
+    void deletePersonList(List<Long> personIds);
 }

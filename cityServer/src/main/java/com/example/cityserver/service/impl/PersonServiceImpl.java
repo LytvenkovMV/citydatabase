@@ -128,4 +128,12 @@ public class PersonServiceImpl implements PersonService {
         personHouseService.deleteAllByPersonId(personId);
         repository.delete(person);
     }
+
+    @Override
+    @Transactional(isolation = Isolation.DEFAULT)
+    public void deletePersonList(List<Long> personIds) {
+        for (Long id : personIds) personHouseService.deleteAllByPersonId(id);
+
+        repository.deleteAllById(personIds);
+    }
 }
