@@ -24,8 +24,13 @@ spring:
     consumer:
       group-id: group_1
 
-logging.level.org.jooq.tools:
+logging:
+  level.org.jooq.tools:
           LoggerListener: DEBUG
+  file:
+    name: bankserver.log
+    path: C:\GIT\citydatabase\bankServer\logs
+
 
 server:
   port: 8081
