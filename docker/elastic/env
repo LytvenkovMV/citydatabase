@@ -2,13 +2,13 @@
 #COMPOSE_PROJECT_NAME=citydatabase
 
 # Password for the 'elastic' user (at least 6 characters)
-ELASTIC_PASSWORD=12345
+ELASTIC_PASSWORD=qwerty
 
 # Password for the 'kibana_system' user (at least 6 characters)
-KIBANA_PASSWORD=12345
+KIBANA_PASSWORD=qwerty
 
 # Version of Elastic products
-STACK_VERSION=8.7.1
+STACK_VERSION=8.1.0
 
 # Set the cluster name
 CLUSTER_NAME=docker-cluster
