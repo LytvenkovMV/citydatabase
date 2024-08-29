@@ -8,6 +8,8 @@ import com.example.bankserver.repository.AccountRepository;
 import com.example.bankserver.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -15,11 +17,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class AccountServiceImpl implements AccountService {
 
     private final PersonsMessagingService messagingService;
     private final AccountRepository repository;
+    private final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
     @Override
     public GetAccountResponseDto addAccount(AddAccountRequestDto dto) {
@@ -29,6 +31,7 @@ public class AccountServiceImpl implements AccountService {
         a.setBalance(dto.getBalance());
 
         a = repository.insert(a);
+        logger.info("Account successfully added.");
 
         GetAccountResponseDto responseDto = new GetAccountResponseDto();
         responseDto.setId(a.getId());
@@ -50,13 +53,14 @@ public class AccountServiceImpl implements AccountService {
                 .toList();
         try {
             repository.insertAll(accounts);
+            logger.info("Account list successfully added.");
         } catch (Exception e) {
             repository.deleteAll(accounts.stream()
                     .map(Account::getPersonId)
                     .toList());
 
             messagingService.sendPersons(personIds);
-            log.warn("Unable to create accounts. Rollback request!");
+            logger.error("Unable to add account list. Rollback request!");
 
             throw new RuntimeException(e);
         }
