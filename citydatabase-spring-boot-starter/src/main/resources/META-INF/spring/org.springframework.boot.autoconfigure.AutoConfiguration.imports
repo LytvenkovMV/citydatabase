@@ -1,0 +1,2 @@
+com.example.citydatabasespringbootstarter.configuration.KafkaConsumerConfig
+com.example.citydatabasespringbootstarter.configuration.KafkaProducerConfig
