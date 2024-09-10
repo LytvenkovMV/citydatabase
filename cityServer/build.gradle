@@ -25,6 +25,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -36,13 +37,16 @@ dependencies {
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.5.Final'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.2.0'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    implementation 'org.springframework.kafka:spring-kafka'
-    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    implementation 'com.example:citydatabase-spring-boot-starter:0.0.1-SNAPSHOT'
+
     compileOnly 'org.projectlombok:lombok'
+
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.5.Final'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

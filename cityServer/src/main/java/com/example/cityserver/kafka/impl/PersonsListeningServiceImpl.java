@@ -18,7 +18,7 @@ public class PersonsListeningServiceImpl implements PersonsListeningService {
     private final PersonService personService;
 
     @Override
-    @KafkaListener(topics = "personsrollback", containerFactory = "PersonListenerConsumerContainer")
+    @KafkaListener(topics = "personsrollback")
     public void listen(Long[] personIds) {
 
         List<Long> personsList = Arrays.stream(personIds).toList();
