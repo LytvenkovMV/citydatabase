@@ -1,4 +1,4 @@
-package com.example.citydatabasespringbootstarter.configuration;
+package com.example.citydatabasespringbootstarter.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

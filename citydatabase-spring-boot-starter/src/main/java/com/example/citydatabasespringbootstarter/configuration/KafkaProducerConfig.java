@@ -1,5 +1,6 @@
 package com.example.citydatabasespringbootstarter.configuration;
 
+import com.example.citydatabasespringbootstarter.properties.CitydatabaseProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
