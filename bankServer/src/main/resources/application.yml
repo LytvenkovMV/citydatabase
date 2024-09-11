@@ -29,4 +29,3 @@ eureka:
 
 #    registerWithEureka: false
 #    fetchRegistry: false
-

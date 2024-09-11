@@ -13,11 +13,11 @@ import java.util.List;
 public class PersonsListeningServiceImpl implements PersonsListeningService {
 
     private final AccountService accountService;
+    private final MessageListeningService service;
 
     @Override
-    @KafkaListener(topics = "newpersons")
     public void listen(Long[] personIds) {
 
-        accountService.addAccountList(personIds);
+        accountService.addAccountList(service.listenLongArray());
     }
 }
