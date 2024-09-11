@@ -1,12 +1,11 @@
 package com.example.citydatabasespringbootstarter.configuration;
 
-import com.example.citydatabasespringbootstarter.properties.CitydatabaseProperties;
-import lombok.RequiredArgsConstructor;
+import com.example.citydatabasespringbootstarter.properties.CitydatabaseKafkaProperties;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -17,20 +16,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableKafka
-@Configuration
-@EnableConfigurationProperties(CitydatabaseProperties.class)
-@RequiredArgsConstructor
+@AutoConfiguration
+@EnableConfigurationProperties(CitydatabaseKafkaProperties.class)
 public class KafkaConsumerConfig {
 
-    private final CitydatabaseProperties citydatabaseProperties;
+    private final CitydatabaseKafkaProperties citydatabaseKafkaProperties;
+
+    public KafkaConsumerConfig(CitydatabaseKafkaProperties citydatabaseKafkaProperties) {
+        this.citydatabaseKafkaProperties = citydatabaseKafkaProperties;
+    }
 
     public ConsumerFactory<String, Long[]> consumerFactory() {
 
-        String bootstrapAddress = citydatabaseProperties.getBootstrapAddress() == null
-                ? "localhost:29092" : citydatabaseProperties.getBootstrapAddress();
+        String bootstrapAddress = citydatabaseKafkaProperties.bootstrapAddress == null
+                ? "localhost:29092" : citydatabaseKafkaProperties.bootstrapAddress;
 
-        String groupId = citydatabaseProperties.getConsumerGroupId() == null
-                ? "group_1" : citydatabaseProperties.getConsumerGroupId();
+        String groupId = citydatabaseKafkaProperties.consumerGroupId == null
+                ? "group_1" : citydatabaseKafkaProperties.consumerGroupId;
 
         Map<String, Object> props = new HashMap<>();
 
@@ -50,7 +52,7 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
-    @Bean
+    @Bean(name = "KafkaListenerContainerFactoryForCitydatabase")
     public ConcurrentKafkaListenerContainerFactory<String, Long[]>
     kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, Long[]> factory =

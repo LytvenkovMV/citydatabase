@@ -1,12 +1,11 @@
 package com.example.citydatabasespringbootstarter.configuration;
 
-import com.example.citydatabasespringbootstarter.properties.CitydatabaseProperties;
-import lombok.RequiredArgsConstructor;
+import com.example.citydatabasespringbootstarter.properties.CitydatabaseKafkaProperties;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -17,17 +16,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableKafka
-@Configuration
-@EnableConfigurationProperties(CitydatabaseProperties.class)
-@RequiredArgsConstructor
+@AutoConfiguration
+@EnableConfigurationProperties(CitydatabaseKafkaProperties.class)
 public class KafkaProducerConfig {
 
-    private final CitydatabaseProperties citydatabaseProperties;
+    private final CitydatabaseKafkaProperties citydatabaseKafkaProperties;
+
+    public KafkaProducerConfig(CitydatabaseKafkaProperties citydatabaseKafkaProperties) {
+        this.citydatabaseKafkaProperties = citydatabaseKafkaProperties;
+    }
 
     public ProducerFactory<String, Long[]> producerFactory() {
 
-        String bootstrapAddress = citydatabaseProperties.getBootstrapAddress() == null
-                ? "localhost:29092" : citydatabaseProperties.getBootstrapAddress();
+        String bootstrapAddress = citydatabaseKafkaProperties.bootstrapAddress == null
+                ? "localhost:29092" : citydatabaseKafkaProperties.bootstrapAddress;
 
         Map<String, Object> configProps = new HashMap<>();
 
@@ -44,7 +46,7 @@ public class KafkaProducerConfig {
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
-    @Bean
+    @Bean(name = "KafkaTemplateForCitydatabase")
     public KafkaTemplate<String, Long[]> kafkaTemplate() {
 
         return new KafkaTemplate<>(producerFactory());

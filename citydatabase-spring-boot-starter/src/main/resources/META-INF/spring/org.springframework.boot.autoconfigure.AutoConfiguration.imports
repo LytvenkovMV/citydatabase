@@ -1,2 +1,4 @@
 com.example.citydatabasespringbootstarter.configuration.KafkaConsumerConfig
 com.example.citydatabasespringbootstarter.configuration.KafkaProducerConfig
+com.example.citydatabasespringbootstarter.configuration.KafkaAdminConfig
+com.example.citydatabasespringbootstarter.configuration.KafkaTopicConfig

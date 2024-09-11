@@ -1,11 +1,10 @@
 package com.example.citydatabasespringbootstarter.configuration;
 
-import com.example.citydatabasespringbootstarter.properties.CitydatabaseProperties;
-import lombok.RequiredArgsConstructor;
+import com.example.citydatabasespringbootstarter.properties.CitydatabaseKafkaProperties;
 import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.KafkaAdmin;
 
@@ -13,18 +12,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableKafka
-@Configuration
-@EnableConfigurationProperties(CitydatabaseProperties.class)
-@RequiredArgsConstructor
+@AutoConfiguration
+@EnableConfigurationProperties(CitydatabaseKafkaProperties.class)
 public class KafkaAdminConfig {
 
-    private final CitydatabaseProperties citydatabaseProperties;
+    private final CitydatabaseKafkaProperties citydatabaseKafkaProperties;
 
-    @Bean
+    public KafkaAdminConfig(CitydatabaseKafkaProperties citydatabaseKafkaProperties) {
+        this.citydatabaseKafkaProperties = citydatabaseKafkaProperties;
+    }
+
+    @Bean(name = "KafkaAdminForCitydatabase")
     public KafkaAdmin kafkaAdmin() {
 
-        String bootstrapAddress = citydatabaseProperties.getBootstrapAddress() == null
-                ? "localhost:29092" : citydatabaseProperties.getBootstrapAddress();
+        String bootstrapAddress = citydatabaseKafkaProperties.bootstrapAddress == null
+                ? "localhost:29092" : citydatabaseKafkaProperties.bootstrapAddress;
 
         Map<String, Object> configs = new HashMap<>();
 
