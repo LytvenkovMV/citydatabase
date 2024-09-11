@@ -4,10 +4,7 @@ import com.example.bankserver.kafka.PersonsListeningService;
 import com.example.bankserver.service.AccountService;
 import com.example.citydatabasespringbootstarter.service.MessageListeningService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
