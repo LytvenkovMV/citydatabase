@@ -1,0 +1,2 @@
+com.example.citydatabasespringbootstarter.configuration.MessageListeningServiceConfig
+com.example.citydatabasespringbootstarter.configuration.MessageSendingServiceConfig
