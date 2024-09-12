@@ -31,8 +31,8 @@ public class MessageSendingServiceConfig {
 
     public ProducerFactory<String, Long[]> producerFactory() {
 
-        String bootstrapAddress = citydatabaseKafkaProperties.bootstrapAddress == null
-                ? "localhost:29092" : citydatabaseKafkaProperties.bootstrapAddress;
+        String bootstrapAddress = citydatabaseKafkaProperties.getBootstrapAddress() == null
+                ? "localhost:29092" : citydatabaseKafkaProperties.getBootstrapAddress();
 
         Map<String, Object> configProps = new HashMap<>();
 
@@ -59,8 +59,8 @@ public class MessageSendingServiceConfig {
     @Bean
     public KafkaAdmin kafkaAdmin() {
 
-        String bootstrapAddress = citydatabaseKafkaProperties.bootstrapAddress == null
-                ? "localhost:29092" : citydatabaseKafkaProperties.bootstrapAddress;
+        String bootstrapAddress = citydatabaseKafkaProperties.getBootstrapAddress() == null
+                ? "localhost:29092" : citydatabaseKafkaProperties.getBootstrapAddress();
 
         Map<String, Object> configs = new HashMap<>();
 
@@ -72,9 +72,15 @@ public class MessageSendingServiceConfig {
     @Bean
     public NewTopic topic1() {
 
-        String topic = citydatabaseKafkaProperties.senderTopic == null
-                ? "topic_1" : citydatabaseKafkaProperties.senderTopic;
+        String topic = citydatabaseKafkaProperties.getSenderTopic() == null
+                ? "topic_1" : citydatabaseKafkaProperties.getSenderTopic();
 
-        return new NewTopic(topic, 1, (short) 1);
+        int numPartitions = citydatabaseKafkaProperties.getNumPartitions() == null
+                ? 1 : citydatabaseKafkaProperties.getNumPartitions();
+
+        int replicationFactor = citydatabaseKafkaProperties.getReplicationFactor() == null
+                ? 1 : citydatabaseKafkaProperties.getReplicationFactor();
+
+        return new NewTopic(topic, numPartitions, (short) replicationFactor);
     }
 }
