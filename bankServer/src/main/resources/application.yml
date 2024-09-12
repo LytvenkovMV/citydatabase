@@ -29,3 +29,7 @@ eureka:
 
 #    registerWithEureka: false
 #    fetchRegistry: false
+
+citydatabase:
+  kafka:
+    senderTopic: personsrollback
