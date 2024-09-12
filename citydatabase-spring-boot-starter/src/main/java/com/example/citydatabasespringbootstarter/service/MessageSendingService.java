@@ -19,6 +19,6 @@ public class MessageSendingService {
 
     public void sendLongArray(Long[] longs) {
 
-        kafkaTemplate.send(citydatabaseKafkaProperties.senderTopic, longs);
+        kafkaTemplate.send(citydatabaseKafkaProperties.getSenderTopic(), longs);
     }
 }

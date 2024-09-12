@@ -1,7 +1,6 @@
 package com.example.citydatabasespringbootstarter.configuration;
 
 import com.example.citydatabasespringbootstarter.properties.CitydatabaseKafkaProperties;
-import com.example.citydatabasespringbootstarter.service.MessageListeningService;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -17,21 +16,21 @@ import java.util.Map;
 
 @AutoConfiguration
 @EnableConfigurationProperties(CitydatabaseKafkaProperties.class)
-public class MessageListeningServiceConfig {
+public class KafkaListenerConfig {
 
     private final CitydatabaseKafkaProperties citydatabaseKafkaProperties;
 
-    public MessageListeningServiceConfig(CitydatabaseKafkaProperties citydatabaseKafkaProperties) {
+    public KafkaListenerConfig(CitydatabaseKafkaProperties citydatabaseKafkaProperties) {
         this.citydatabaseKafkaProperties = citydatabaseKafkaProperties;
     }
 
     public ConsumerFactory<String, Long[]> consumerFactory() {
 
-        String bootstrapAddress = citydatabaseKafkaProperties.bootstrapAddress == null
-                ? "localhost:29092" : citydatabaseKafkaProperties.bootstrapAddress;
+        String bootstrapAddress = citydatabaseKafkaProperties.getBootstrapAddress() == null
+                ? "localhost:29092" : citydatabaseKafkaProperties.getBootstrapAddress();
 
-        String groupId = citydatabaseKafkaProperties.consumerGroupId == null
-                ? "group_1" : citydatabaseKafkaProperties.consumerGroupId;
+        String groupId = citydatabaseKafkaProperties.getConsumerGroupId() == null
+                ? "group_1" : citydatabaseKafkaProperties.getConsumerGroupId();
 
         Map<String, Object> props = new HashMap<>();
 
@@ -59,11 +58,5 @@ public class MessageListeningServiceConfig {
         factory.setConsumerFactory(consumerFactory());
 
         return factory;
-    }
-
-    @Bean
-    public MessageListeningService messageListeningService() {
-
-        return new MessageListeningService("topic_1");
     }
 }
