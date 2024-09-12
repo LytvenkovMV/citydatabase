@@ -33,3 +33,6 @@ eureka:
 citydatabase:
   kafka:
     senderTopic: personsrollback
+    num-partitions: 1
+    replication-factor: 1
+    consumer-group-id: bankserver_group1
