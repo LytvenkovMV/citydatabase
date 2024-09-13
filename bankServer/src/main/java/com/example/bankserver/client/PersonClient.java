@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@FeignClient(name = "CITYDATABASE")
+@FeignClient(name = "PROXY")
 public interface PersonClient {
 
     @RequestMapping("/city/api/persons/{id}")

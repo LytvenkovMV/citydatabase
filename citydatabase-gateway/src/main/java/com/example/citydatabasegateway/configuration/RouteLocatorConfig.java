@@ -6,15 +6,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RouteLocatorConfig {
+class RouteLocatorConfig {
 
     @Bean
-    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+    RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("r1", r -> r.host("**.bank/api")
-                        .and()
-                        .path("/bank")
-                        .uri("localhost:8081"))
+                .route("bankserver_route",
+                        route -> route.path("/bank/api/**")
+                                .uri("lb://bank/api"))
+                .route("cityserver_route",
+                        route -> route.path("/city/api/**")
+                                .uri("lb://city/api"))
                 .build();
     }
 }
