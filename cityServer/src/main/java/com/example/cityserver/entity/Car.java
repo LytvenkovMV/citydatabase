@@ -1,11 +1,13 @@
 package com.example.cityserver.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
 @Table(name = "cars")
+@Getter
+@Setter
 public class Car {
 
     @Id

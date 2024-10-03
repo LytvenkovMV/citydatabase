@@ -1,14 +1,16 @@
 package com.example.cityserver.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Data
 @Table(name = "houses")
+@Getter
+@Setter
 public class House {
 
     @Id

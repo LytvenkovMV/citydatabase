@@ -1,13 +1,15 @@
 package com.example.cityserver.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
-@Data
 @Table(name = "passports")
+@Getter
+@Setter
 public class Passport {
 
     @Id

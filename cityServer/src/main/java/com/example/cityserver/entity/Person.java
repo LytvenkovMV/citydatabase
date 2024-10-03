@@ -1,14 +1,16 @@
 package com.example.cityserver.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Data
 @Table(name = "persons")
+@Getter
+@Setter
 public class Person {
 
     @Id
