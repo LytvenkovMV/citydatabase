@@ -4,8 +4,11 @@ import com.example.cityserver.controller.PersonController;
 import com.example.cityserver.dto.person.AddPersonRequestDto;
 import com.example.cityserver.dto.person.GetPersonResponseDto;
 import com.example.cityserver.kafka.PersonsMessagingService;
+import com.example.cityserver.service.PersonHouseService;
 import com.example.cityserver.service.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +22,7 @@ public class PersonControllerImpl implements PersonController {
 
     private final PersonService personService;
     private final PersonsMessagingService messagingService;
+    private final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     @Override
     public ResponseEntity<GetPersonResponseDto> getPerson(@PathVariable(name = "id") Long personId) {
@@ -50,7 +54,9 @@ public class PersonControllerImpl implements PersonController {
     @Override
     public ResponseEntity<GetPersonResponseDto> updatePerson(@PathVariable(name = "id") Long personId,
                                                              @RequestBody AddPersonRequestDto requestDto) {
+        logger.debug("Start updating person");
         GetPersonResponseDto dto = personService.updatePerson(personId, requestDto);
+        logger.debug("Finish updating person");
 
         return ResponseEntity.ok(dto);
     }

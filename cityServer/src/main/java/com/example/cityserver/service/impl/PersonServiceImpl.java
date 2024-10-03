@@ -12,6 +12,8 @@ import com.example.cityserver.service.PassportService;
 import com.example.cityserver.service.PersonHouseService;
 import com.example.cityserver.service.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,8 @@ public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository repository;
     private final PersonMapper mapper;
+
+    private final Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     @Override
     public Person getPerson(Long personId) {
@@ -101,21 +105,31 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public GetPersonResponseDto updatePerson(Long personId, AddPersonRequestDto dto) {
+        logger.debug("Start updating person");
         Optional<Person> optPerson = repository.findById(personId);
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
+        logger.debug("Person found in DB");
 
         Person person = mapper.personFromAddPersonRequestDto(dto);
         person.setId(personId);
         person.setPassport(optPerson.get().getPassport());
         person = repository.save(person);
+        logger.debug("Person saved in DB");
 
         List<House> houses = dto.getHousesId().stream()
                 .distinct()
                 .map(houseService::getHouse)
                 .toList();
-        person.setHouses(personHouseService.updateHousesInPerson(person, houses));
+        List<House> updatedHouses = personHouseService.updateHousesInPerson(person, houses);
+        logger.debug("Person house updated in DB");
 
-        return mapper.fromPerson(person);
+        person.setHouses(updatedHouses);
+        logger.debug("Set houses into person entity");
+
+        GetPersonResponseDto dto1 = mapper.fromPerson(person);
+        logger.debug("Response dto received from mapper");
+
+        return dto1;
     }
 
     @Override
