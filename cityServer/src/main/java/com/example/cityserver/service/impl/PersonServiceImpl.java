@@ -11,12 +11,16 @@ import com.example.cityserver.service.HouseService;
 import com.example.cityserver.service.PassportService;
 import com.example.cityserver.service.PersonHouseService;
 import com.example.cityserver.service.PersonService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +29,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class PersonServiceImpl implements PersonService {
 
     private final HouseService houseService;
@@ -37,7 +42,7 @@ public class PersonServiceImpl implements PersonService {
     private final Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     @Override
-    public Person getPerson(Long personId) {
+    public Person getPerson(@Positive Long personId) {
         Optional<Person> optPerson = repository.findById(personId);
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
 
@@ -45,12 +50,12 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<Person> getPersonsBy(Character surnameStartChar) {
+    public List<Person> getPersonsBy(@NotBlank Character surnameStartChar) {
         return repository.findAllBySurnameStartingWith(surnameStartChar);
     }
 
     @Override
-    public GetPersonResponseDto getPersonDto(Long personId) {
+    public GetPersonResponseDto getPersonDto(@Positive Long personId) {
         Person person = getPerson(personId);
 
         return mapper.fromPerson(person);
@@ -58,7 +63,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public GetPersonResponseDto addPerson(AddPersonRequestDto dto) {
+    public GetPersonResponseDto addPerson(@Valid AddPersonRequestDto dto) {
         Person person = mapper.personFromAddPersonRequestDto(dto);
         Passport passport = passportService.addPassport();
         person.setPassport(passport);
@@ -75,7 +80,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public List<GetPersonResponseDto> addPersonList(List<AddPersonRequestDto> requestDtoList) {
+    public List<GetPersonResponseDto> addPersonList(@Valid List<AddPersonRequestDto> requestDtoList) {
 
         List<Passport> passports = passportService.addPassportList(requestDtoList.size());
         Iterator<Passport> passportIterator = passports.iterator();
@@ -104,7 +109,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public GetPersonResponseDto updatePerson(Long personId, AddPersonRequestDto dto) {
+    public GetPersonResponseDto updatePerson(@Positive Long personId, @Valid AddPersonRequestDto dto) {
         logger.debug("Start updating person");
         Optional<Person> optPerson = repository.findById(personId);
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
@@ -134,7 +139,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional(isolation = Isolation.DEFAULT)
-    public void deletePerson(Long personId) {
+    public void deletePerson(@Positive Long personId) {
         Optional<Person> optPerson = repository.findById(personId);
         if (optPerson.isEmpty()) throw new NoSuchElementException("Person not found");
 
@@ -145,9 +150,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional(isolation = Isolation.DEFAULT)
-    public void deletePersonList(List<Long> personIds) {
+    public void deletePersonList(@Positive List<Long> personIds) {
         for (Long id : personIds) personHouseService.deleteAllByPersonId(id);
 
         repository.deleteAllById(personIds);
     }
 }
+
+
+

@@ -9,12 +9,17 @@ import com.example.cityserver.repository.HouseRepository;
 import com.example.cityserver.service.HouseService;
 import com.example.cityserver.service.PersonHouseService;
 import com.example.cityserver.service.PersonService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,6 +27,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class HouseServiceImpl implements HouseService {
 
     @Autowired
@@ -34,7 +40,7 @@ public class HouseServiceImpl implements HouseService {
     private final HouseMapper mapper;
 
     @Override
-    public House getHouse(Long houseId) {
+    public House getHouse(@Positive Long houseId) {
         Optional<House> optHouse = repository.findById(houseId);
         if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
 
@@ -42,12 +48,16 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public List<House> getHousesBy(String streetName) {
+    public List<House> getHousesBy(
+            @NotBlank
+            @Pattern(regexp = "[А-Я,а-я]")
+            String streetName) {
+
         return repository.findAllByStreetName(streetName);
     }
 
     @Override
-    public GetHouseResponseDto getHouseDto(Long houseId) {
+    public GetHouseResponseDto getHouseDto(@Positive Long houseId) {
         Optional<House> optHouse = repository.findById(houseId);
         if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
 
@@ -56,7 +66,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public GetHouseResponseDto addHouse(AddHouseRequestDto dto) {
+    public GetHouseResponseDto addHouse(@Valid AddHouseRequestDto dto) {
         House house = mapper.fromAddHouseRequestDto(dto);
         repository.save(house);
 
@@ -71,7 +81,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public GetHouseResponseDto updateHouse(Long houseId, AddHouseRequestDto dto) {
+    public GetHouseResponseDto updateHouse(@Positive Long houseId, @Valid AddHouseRequestDto dto) {
         if (!repository.existsById(houseId)) throw new NoSuchElementException("House not found");
 
         House house = mapper.fromAddHouseRequestDto(dto);
@@ -89,7 +99,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     @Transactional(isolation = Isolation.DEFAULT)
-    public void deleteHouse(Long houseId) {
+    public void deleteHouse(@Positive Long houseId) {
         Optional<House> optHouse = repository.findById(houseId);
         if (optHouse.isEmpty()) throw new NoSuchElementException("House not found");
 

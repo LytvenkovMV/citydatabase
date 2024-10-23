@@ -3,24 +3,27 @@ package com.example.cityserver.service;
 import com.example.cityserver.dto.person.AddPersonRequestDto;
 import com.example.cityserver.dto.person.GetPersonResponseDto;
 import com.example.cityserver.entity.Person;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 import java.util.List;
 
 public interface PersonService {
 
-    Person getPerson(Long personId);
+    Person getPerson(@Positive Long personId);
 
-    List<Person> getPersonsBy(Character surnameStartChar);
+    List<Person> getPersonsBy(@NotBlank Character surnameStartChar);
 
-    GetPersonResponseDto getPersonDto(Long personId);
+    GetPersonResponseDto getPersonDto(@Positive Long personId);
 
-    GetPersonResponseDto addPerson(AddPersonRequestDto dto);
+    GetPersonResponseDto addPerson(@Valid AddPersonRequestDto dto);
 
-    List<GetPersonResponseDto> addPersonList(List<AddPersonRequestDto> requestDtoList);
+    List<GetPersonResponseDto> addPersonList(@Valid List<AddPersonRequestDto> requestDtoList);
 
-    GetPersonResponseDto updatePerson(Long personId, AddPersonRequestDto dto);
+    GetPersonResponseDto updatePerson(@Positive Long personId, @Valid AddPersonRequestDto dto);
 
-    void deletePerson(Long personId);
+    void deletePerson(@Positive Long personId);
 
-    void deletePersonList(List<Long> personIds);
+    void deletePersonList(@Positive List<Long> personIds);
 }

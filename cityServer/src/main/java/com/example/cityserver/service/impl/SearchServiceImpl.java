@@ -7,14 +7,18 @@ import com.example.cityserver.entity.Car;
 import com.example.cityserver.entity.House;
 import com.example.cityserver.entity.Person;
 import com.example.cityserver.service.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class SearchServiceImpl implements SearchService {
 
     private final PersonService personService;
@@ -23,7 +27,7 @@ public class SearchServiceImpl implements SearchService {
     private final CarService carService;
 
     @Override
-    public List<GetCarResponseDto> searchPersonCars(Long personId) {
+    public List<GetCarResponseDto> searchPersonCars(@Positive Long personId) {
         Person person = personService.getPerson(personId);
 
         List<GetCarResponseDto> cars = new ArrayList<>();
@@ -35,7 +39,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<GetPersonResponseDto> searchPersonsByHousesOnStreet(String streetName) {
+    public List<GetPersonResponseDto> searchPersonsByHousesOnStreet(@NotBlank String streetName) {
         List<House> houses = houseService.getHousesBy(streetName);
 
         List<GetPersonResponseDto> dtoList = houses.stream()
@@ -47,7 +51,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<GetPassportResponseDto> searchPassportWithSurnameStartingWith(Character surnameStartChar) {
+    public List<GetPassportResponseDto> searchPassportWithSurnameStartingWith(@NotBlank Character surnameStartChar) {
 
         List<Person> persons = personService.getPersonsBy(surnameStartChar);
 

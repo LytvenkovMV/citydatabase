@@ -2,14 +2,16 @@ package com.example.cityserver.service;
 
 import com.example.cityserver.dto.car.AddCarRequestDto;
 import com.example.cityserver.dto.car.GetCarResponseDto;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 
 public interface CarService {
 
-    GetCarResponseDto getCarDto(Long carId);
+    GetCarResponseDto getCarDto(@Positive Long carId);
 
-    Long addCar(AddCarRequestDto dto);
+    Long addCar(@Valid AddCarRequestDto dto);
 
-    void updateCar(Long carId, AddCarRequestDto dto);
+    void updateCar(@Positive Long carId, @Valid AddCarRequestDto dto);
 
-    void deleteCar(Long carId);
+    void deleteCar(@Positive Long carId);
 }
