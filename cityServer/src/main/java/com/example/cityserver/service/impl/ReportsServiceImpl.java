@@ -1,6 +1,8 @@
 package com.example.cityserver.service.impl;
 
+import com.example.cityserver.service.JxlsService;
 import com.example.cityserver.service.ReportsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -11,19 +13,27 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
+@RequiredArgsConstructor
 public class ReportsServiceImpl implements ReportsService {
 
-    private static final String PERSONS_FILE_PATH = "static/image.jpeg";
+    private static final String PERSONS_FILE_PATH = "static/jxls/reports/persons_report.xlsx";
+    private final JxlsService jxlsService;
 
     @Override
     public byte[] getPersonReport() {
 
-        Path path;
-        byte[] bytes;
+        jxlsService.generatePersonsReport();
+
+        Path path = null;
+        byte[] bytes = new byte[]{};
         try {
             URL url = getClass().getClassLoader().getResource(PERSONS_FILE_PATH);
-            path = Paths.get(url.toURI());
-            bytes = Files.readAllBytes(path);
+            if (url != null) {
+                path = Paths.get(url.toURI());
+            }
+            if (path != null) {
+                bytes = Files.readAllBytes(path);
+            }
         } catch (URISyntaxException | IOException | NullPointerException e) {
             e.printStackTrace();
 

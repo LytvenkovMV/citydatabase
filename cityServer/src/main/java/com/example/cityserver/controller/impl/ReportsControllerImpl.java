@@ -22,7 +22,7 @@ public class ReportsControllerImpl implements ReportsController {
     public ResponseEntity<ByteArrayResource> getPersonsReport() {
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=image.jpeg");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=persons.xlsx");
 
         byte[] bytes = service.getPersonReport();
 
