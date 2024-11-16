@@ -17,17 +17,36 @@ import java.nio.file.Paths;
 public class ReportsServiceImpl implements ReportsService {
 
     private static final String PERSONS_FILE_PATH = "static/jxls/reports/persons_report.xlsx";
+    private static final String HOUSES_FILE_PATH = "static/jxls/reports/houses_report.xlsx";
+    private static final String CARS_FILE_PATH = "static/jxls/reports/cars_report.xlsx";
     private final JxlsService jxlsService;
 
     @Override
-    public byte[] getPersonReport() {
-
+    public byte[] getPersonsReport() {
         jxlsService.generatePersonsReport();
 
+        return getReportBytes(PERSONS_FILE_PATH);
+    }
+
+    @Override
+    public byte[] getHousesReport() {
+        jxlsService.generateHousesReport();
+
+        return getReportBytes(HOUSES_FILE_PATH);
+    }
+
+    @Override
+    public byte[] getCarsReport() {
+        jxlsService.generateCarsReport();
+
+        return getReportBytes(CARS_FILE_PATH);
+    }
+
+    private byte[] getReportBytes(String filePath) {
         Path path = null;
         byte[] bytes = new byte[]{};
         try {
-            URL url = getClass().getClassLoader().getResource(PERSONS_FILE_PATH);
+            URL url = getClass().getClassLoader().getResource(filePath);
             if (url != null) {
                 path = Paths.get(url.toURI());
             }
@@ -39,7 +58,6 @@ public class ReportsServiceImpl implements ReportsService {
 
             throw new RuntimeException();
         }
-
         return bytes;
     }
 }
