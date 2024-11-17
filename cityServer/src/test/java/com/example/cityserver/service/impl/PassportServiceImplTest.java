@@ -48,11 +48,14 @@ class PassportServiceImplTest {
         passport.setOfficeCode(officeCode);
 
 
+
         // when
         when(repository.findMaxNumber()).thenReturn(Optional.of(MAX_NUMBER));
         when(repository.save(any(Passport.class))).thenReturn(passport);
 
         Passport testedPassport = service.addPassport();
+
+
 
         // then
         assertEquals(MAX_NUMBER + 1, testedPassport.getNumber());
