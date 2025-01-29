@@ -10,6 +10,7 @@ public class CitydatabaseKafkaProperties {
     String senderTopic;
     Integer numPartitions;
     Integer replicationFactor;
+    boolean enabled;
 
     public String getBootstrapAddress() {
         return bootstrapAddress;
@@ -49,5 +50,13 @@ public class CitydatabaseKafkaProperties {
 
     public void setReplicationFactor(Integer replicationFactor) {
         this.replicationFactor = replicationFactor;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
