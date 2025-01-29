@@ -52,8 +52,6 @@ public class KafkaListenerConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Long[]> kafkaListenerContainerFactory() {
-        if(!citydatabaseKafkaProperties.isEnabled()) return null;
-
         ConcurrentKafkaListenerContainerFactory<String, Long[]> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
