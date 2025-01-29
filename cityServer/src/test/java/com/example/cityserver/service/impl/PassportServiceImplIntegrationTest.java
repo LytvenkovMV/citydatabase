@@ -1,7 +1,7 @@
 package com.example.cityserver.service.impl;
 
+import com.example.cityserver.dto.passport.GetPassportResponseDto;
 import com.example.cityserver.entity.Passport;
-import com.example.cityserver.repository.PassportRepository;
 import com.example.cityserver.service.PassportService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.NoSuchElementException;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,12 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PassportServiceImplIntegrationTest {
 
     @Autowired
-    private PassportRepository repository;
-
-    @Autowired
     private PassportService service;
 
-    private Long number = 0L;
+    private Long number = 1L;
     @Value("${cityserver.passportservice.office-code}")
     private String officeCode;
 
@@ -32,18 +29,33 @@ class PassportServiceImplIntegrationTest {
     private Integer series;
 
     @Test
-    @DisplayName("Test the new passport is generated and saved")
+    @DisplayName("Test the passport is get from database")
+    void getPassportDto() {
+
+        // when
+
+        GetPassportResponseDto tested = service.getPassportDto(1L);
+
+        // then
+        assertEquals(1, tested.getNumber());
+        assertEquals(1, tested.getSeries());
+        assertEquals("1", tested.getOfficeCode());
+        assertEquals("2000-01-01", tested.getIssueDate());
+    }
+
+    @Test
+    @DisplayName("Test the new passport is generated and saved in database")
     void addPassport() {
 
         // when
 
         Passport tested = service.addPassport();
-        Passport actual = repository.findById(tested.getId()).orElseThrow(NoSuchElementException::new);
 
         // then
 
-        assertEquals(number, actual.getNumber());
-        assertEquals(series, actual.getSeries());
-        assertEquals(officeCode, actual.getOfficeCode());
+        assertEquals(number, tested.getNumber());
+        assertEquals(series, tested.getSeries());
+        assertEquals(officeCode, tested.getOfficeCode());
+        assertEquals(LocalDate.now(), tested.getIssueDate());
     }
 }
