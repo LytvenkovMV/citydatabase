@@ -51,7 +51,9 @@ public class MessageSendingServiceConfig {
 
     @Bean
     public MessageSendingService messageSendingService() {
-        if(!citydatabaseKafkaProperties.isEnabled()) return null;
+        if (!citydatabaseKafkaProperties.isEnabled()) {
+            return new MessageSendingService(null, citydatabaseKafkaProperties);
+        }
 
         KafkaTemplate<String, Long[]> kafkaTemplate = new KafkaTemplate<>(producerFactory());
 
@@ -60,7 +62,7 @@ public class MessageSendingServiceConfig {
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
-        if(!citydatabaseKafkaProperties.isEnabled()) return null;
+        if (!citydatabaseKafkaProperties.isEnabled()) return null;
 
         String bootstrapAddress = citydatabaseKafkaProperties.getBootstrapAddress() == null
                 ? "localhost:29092" : citydatabaseKafkaProperties.getBootstrapAddress();
@@ -74,7 +76,7 @@ public class MessageSendingServiceConfig {
 
     @Bean
     public NewTopic topic1() {
-        if(!citydatabaseKafkaProperties.isEnabled()) return null;
+        if (!citydatabaseKafkaProperties.isEnabled()) return null;
 
         String topic = citydatabaseKafkaProperties.getSenderTopic() == null
                 ? "topic_1" : citydatabaseKafkaProperties.getSenderTopic();
