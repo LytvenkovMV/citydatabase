@@ -1,0 +1,7 @@
+services:
+
+  jenkins:
+    image: jenkins/jenkins
+    container_name: jenkins-cont
+    ports:
+      - 8080:8080
