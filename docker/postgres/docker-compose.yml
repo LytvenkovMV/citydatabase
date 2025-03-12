@@ -8,7 +8,7 @@ services:
     image: postgres:latest
     container_name: postgres-link-shortener
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: link-shortener-db
       POSTGRES_USER: postgres
